@@ -55,16 +55,18 @@ require_once __DIR__ . '/../partials/header.php';
                 <span class="sr-only">Next</span>
             </a>
         </div><br><br>
-        <div class="column">
-            <div class="col-sm-4">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
                 <?php
                 // Vòng lặp để hiển thị các bài đăng
                 foreach ($posts as $post) {
 
-                    echo '<div class="post">';
-                    echo '<img src="' . $post['image_post'] . '" >';
-                    echo '<h2>' . $post['title'] . '</h2>';
-                    echo '<p>' . $post['content'] . '</p>';
+                    echo '<div class="post card mb-3"">';
+                    echo '<img src="' . $post['image_post'] . '" class="card-img-top" alt="Image" >';
+                    echo '<div class="card-body">';
+                    echo '<h2 class="card-title">' . $post['title'] . '</h2>';
+                    echo '<p class="card-text">' . $post['content'] . '</p>';
+                    echo '</div>';
                     echo '</div>';
                 }
                 ?>

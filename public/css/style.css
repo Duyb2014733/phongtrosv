@@ -53,3 +53,71 @@ body {
   }
 
   /* end Đăng Ký*/
+
+  /* bài post */
+
+
+  /* end post */
+
+  /* form post */
+
+.form-post {
+  width: 80%;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.form-post h1 {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+
+.form-post label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.form-post input[type="text"], .form-post textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.form-post input[type="file"] {
+  display: none;
+}
+
+.form-post .image-label {
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #ccc;
+  margin: 10px auto;
+  cursor: pointer;
+}
+
+.form-post .image-label img {
+  width: 100%;
+  height: 100%;
+}
+
+.form-post .image-label span {
+  display: block;
+  text-align: center;
+}
+
+.form-post button {
+  display: block;
+  width: 200px;
+  margin: 20px auto;
+  padding: 10px;
+  border: none;
+  background-color: #333;
+  color: #fff;
+}
+
+
+  /* end form post */
