@@ -18,6 +18,14 @@ if (isset($_POST['login'])) {
     // Kiểm tra password
     if ($user && password_verify($password, $user['password'])) {
 
+        $sql = "SELECT id_owner FROM owner WHERE id_name = :id_name";
+
+        $statement = $PDO->prepare($sql);
+        $statement->execute([':id_name' => $user['id_name']]);
+
+        $owner = $statement->fetch();
+
+        $_SESSION['id_owner'] = $owner['id_owner'];
         $_SESSION['id_name'] = $user['id_name'];
         $_SESSION['username'] = $user['username'];
         if (isset($_SESSION['role']) && $_SESSION['role'] == 'Owner') {
