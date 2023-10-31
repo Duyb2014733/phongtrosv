@@ -1,0 +1,55 @@
+img {
+    width: 100%;
+    height: auto;
+}
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	margin-bottom: 60px;
+}
+.h1 {
+    text-align: center;
+}
+.div {
+    border-style: double;
+  }
+
+/* Đăng Ký */ 
+.register-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;  
+  }
+  
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+  } 
+  
+  .btn {
+    background-color: #0077ff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .btn:hover {
+    background-color: #0052cc;
+  }
+
+  /* end Đăng Ký*/
