@@ -37,27 +37,6 @@ if (isset($_POST['login'])) {
         echo $error;
     }
 }
-
-// Xử lý đăng xuất
-if (isset($_GET['logout'])) {
-    session_destroy();
-    header('Location: login.php');
-    exit;
-}
-// Kiểm tra đã đăng nhập
-if (isset($_SESSION['user_id'])) {
-
-    // Hiển thị nội dung dành cho người dùng đã đăng nhập
-    echo 'Xin chào ' . $_SESSION['username'];
-
-    // Nút đăng xuất
-    echo '<a href="?logout">Đăng xuất</a>';
-} else {
-
-    // Hiển thị form đăng nhập
-    // .....
-
-}
 require_once __DIR__ . '/../partials/header.php';
 ?>
 

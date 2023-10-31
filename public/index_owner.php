@@ -1,6 +1,19 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
+if (!isset($_SESSION['id_name'])) {
+    header('Location: Dangnhap.php');
+}
+
+$sql = "SELECT title, content, image_post 
+        FROM post
+        ORDER BY created_at DESC";
+
+$statement = $PDO->prepare($sql);
+$statement->execute();
+
+$posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+
 require_once __DIR__ . '/../partials/header.php';
 ?>
 <!DOCTYPE html>
@@ -41,7 +54,25 @@ require_once __DIR__ . '/../partials/header.php';
                 <span class="glyphicon glyphicon-chevron-right"></span>
                 <span class="sr-only">Next</span>
             </a>
+        </div><br><br>
+        <div class="column">
+            <div class="col-sm-4">
+                <?php
+                // Vòng lặp để hiển thị các bài đăng
+                foreach ($posts as $post) {
+
+                    echo '<div class="post">';
+                    echo '<img src="' . $post['image_post'] . '" >';
+                    echo '<h2>' . $post['title'] . '</h2>';
+                    echo '<p>' . $post['content'] . '</p>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
         </div>
+    </div>
+
+
 
 </body>
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>

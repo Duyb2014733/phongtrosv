@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
+if (!isset($_SESSION['id_name'])) {
+    header('Location: Dangnhap.php');
+}
 // Xử lý khi submit form
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -10,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             return false;
         }
         // Thư mục lưu file
-        $target_dir = "/img";
+        $target_dir = "./img/";
 
         // Tên file mới 
         $target_file = $target_dir . time() . "-" . basename($image["name"]);
@@ -64,7 +67,7 @@ require_once __DIR__ . '/../partials/header.php';
 
 <!DOCTYPE html>
 <html lang="vi">
-<?php require_once __DIR__ . '/../partials/navbar.php'; ?>
+<?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
 
 <head>
     <title>Bài đăng</title>
