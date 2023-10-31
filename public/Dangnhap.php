@@ -20,9 +20,10 @@ if (isset($_POST['login'])) {
 
         $_SESSION['id_name'] = $user['id_name'];
         $_SESSION['username'] = $user['username'];
-
-        header('Location: index.php');
-        exit;
+        if (isset($_SESSION['role']) && $_SESSION['role'] == 'Owner') {
+            header('Location: index_owner.php');
+            exit;
+        }
     } else {
         $error = 'Sai thông tin đăng nhập';
         echo $error;
@@ -74,7 +75,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
             </div><br>
             <div class="from-group text-center " style="color: #B22222;">
-                
+
             </div> <br>
             <div class="from-group">
                 <input type="submit" class="btn btn-primary" name="login" value="Đăng nhập">

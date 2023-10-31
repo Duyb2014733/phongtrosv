@@ -1,9 +1,10 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-
+ob_start();
+session_start();
 // Xử lý đăng ký tài khoản
 if (isset($_POST['register'])) {
-
+    
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];
@@ -33,6 +34,7 @@ if (isset($_POST['register'])) {
         // Sau khi INSERT dữ liệu đăng ký thành công
         if ($statement->rowCount() > 0) {
 
+            $id_name = $PDO->lastInsertId('id_name');
             // Nếu là chủ trọ
             if ($role == 'Owner') {
 
@@ -75,15 +77,14 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="from-group">
                 <label for="username">Username :</label>
                 <input type="text" class="form-control mr-sm-2" name="username" placeholder="Tên đăng ký" required>
-            </div><br>
+            </div><br><br>
             <div class="from-group">
                 <label for="password">Password :</label>
                 <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
-            </div><br>
+            </div><br><br>
             <div class="from-group">
                 <label for="role">Vai trò :</label>
                 <select name="role">
-                    <option value="Admin">Admin</option>
                     <option value="Owner">Chủ trọ</option>
                 </select>
             </div><br>
@@ -91,7 +92,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php if (!empty($msg)) { ?>
                     <span id="msg"><?= $msg ?></span>
                 <?php } ?>
-            </div> <br>
+            </div> <br><br>
             <div class="from-group">
                 <input type="submit" class="btn btn-primary" name="register" value="Đăng ký">
             </div>

@@ -1,9 +1,11 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-
+ob_start();
+session_start();
 // Xử lý nhập thông tin chủ trọ
 if (isset($_POST['register'])) {
-    $nameErr = $emailErr = $phoneErr = $addressErr = "";
+    if (isset($_SESSION['role']) && $_SESSION['role'] == 'Owner') {
+        $nameErr = $emailErr = $phoneErr = $addressErr = "";
     if (empty($_POST["name_owner"])) {
         $nameErr = "Phải nhập tên!";
     }
@@ -43,10 +45,12 @@ if (isset($_POST['register'])) {
           ':address_owner' =>  $address_owner,
           ':id_name' => $id_name
         ]);
+        
         $successMsg = "Thêm thông tin thành công!";
         header('Location: index.php');
-        echo $successMsg;
     }
+    }
+    
 }
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -66,22 +70,22 @@ require_once __DIR__ . '/../partials/header.php';
         <form action="" method="post" class="register-form">
             <h2>Nhập thông tin chủ trọ</h2>
             <div class="form-group">
-                Name: <input type="text" name="name" placeholder="Họ và tên chủ trọ">
+                Name: <input type="text" name="name_owner" placeholder="Họ và tên chủ trọ">
                 <?php if(!empty($nameErr)){ echo "<span>$nameErr</span>"; } ?>
             </div><br><br>
             <div class="form-group">
-                Phone: <input type="mumber" name="phone" placeholder="Số điện thoại chủ trọ" >
+                Phone: <input type="mumber" name="phone_owner" placeholder="Số điện thoại chủ trọ" >
                 <?php if(!empty($phoneErr)){ echo "<span>$phoneErr</span>"; } ?>
             </div><br><br>
             <div class="form-group">
-                E-mail: <input type="text" name="email" placeholder="Email chủ trọ" >
+                E-mail: <input type="text" name="email_owner" placeholder="Email chủ trọ" >
                 <?php if(!empty($emailErr)){ echo "<span>$emailErr</span>"; } ?>
             </div><br><br>
             <div class="form-group">
-                Address: <input type="text" name="address" placeholder="Địa chỉ chủ trọ" >
+                Address: <input type="text" name="address_owner" placeholder="Địa chỉ chủ trọ" >
                 <?php if(!empty($emailErr)){ echo "<span>$emailErr</span>"; } ?>
             </div><br><br>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary" name="register">Submit</button>
         </form>
     </div>
 </body>
