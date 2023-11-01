@@ -7,8 +7,8 @@
       <li class="active"><a href="/index.php">Home</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="/user/Dangky.php"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
-      <li><a href="/user/Dangnhap.php"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
+      <li><a href="/../public/user/Dangky.php"><span class="glyphicon glyphicon-user"></span> Đăng ký</a></li>
+      <li><a href="/Dangnhap.php"><span class="glyphicon glyphicon-log-in"></span> Đăng nhập</a></li>
     </ul>
   </div>
 </nav>
