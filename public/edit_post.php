@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return false;
     }
 
+
     $id_post = $_SESSION['id_post'];
     $title = $_POST['title'];
     $content = $_POST['content'];
@@ -44,21 +45,32 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id_owner = $_SESSION['id_owner']; // lấy từ phiên đăng nhập
     $image_post = $_FILES['image_post'];
     $imagePath = uploadImage($image_post);
-    // Câu lệnh UPDATE
-    $sql = "UPDATE post SET title = :title, content = :content, image_post = :image_post, created_at = now(), update_at = now(), status_post = :status_post, id_owner = :id_owner WHERE id_post = :id_post";
 
-    $statement = $PDO->prepare($sql);
+    $titleErr = $contentErr = "";
+    if (empty($title)) {
+        $titleErr = "Phải nhập tiêu đề bài viết!";
+    }
 
-    $statement->execute([
-        ':id_post' => $id_post,
-        ':title' => $title,
-        ':content' => $content,
-        ':image_post' => $imagePath,
-        ':status_post' => $status_post,
-        ':id_owner' => $id_owner
-    ]);
+    if (empty($content)) {
+        $contentErr = "Phải nhập nội dung!";
+    }
 
-    $msg = "Cập nhật thành công!";
+    if (!empty($titleErr) && empty($contentErr)) {
+        // Câu lệnh UPDATE
+        $sql = "UPDATE post SET title = :title, content = :content, image_post = :image_post, created_at = now(), update_at = now(), status_post = :status_post, id_owner = :id_owner WHERE id_post = :id_post";
+
+        $statement = $PDO->prepare($sql);
+
+        $statement->execute([
+            ':id_post' => $id_post,
+            ':title' => $title,
+            ':content' => $content,
+            ':image_post' => $imagePath,
+            ':status_post' => $status_post,
+            ':id_owner' => $id_owner
+        ]);
+        $msg = "Cập nhật thành công!";
+    }
 }
 require_once __DIR__ . "/../partials/header.php";
 ?>
@@ -83,10 +95,20 @@ require_once __DIR__ . "/../partials/header.php";
                         <label for="title" style="text-align: left;">Tiêu đề :</label>
                         <input class="form-post" type="text" name="title" placeholder="Tiêu đề bài viết">
                     </div><br>
+                    <div style="color: #B22222;">
+                        <?php if (!empty($titleErr)) { ?>
+                            <span><?= $titleErr ?></span>
+                        <?php } ?>
+                    </div><br>
                     <div class="form-group">
                         <label for="content" style="text-align: left;"> Nội dung :</label>
                         <textarea class="form-post" name="content" placeholder="Nội dung bài viết"></textarea><br>
                     </div><br>
+                    <div style="color: #B22222;">
+                    <?php if (!empty($contentErr)) { ?>
+                            <span><?= $contentErr ?></span>
+                        <?php } ?>
+                    </div>
                     <div class="form-group">
                         <input class="form-post" type="file" name="image_post">
                     </div><br>
@@ -98,7 +120,7 @@ require_once __DIR__ . "/../partials/header.php";
                     </div><br>
                     <div class="from-group text-center " style="color: #B22222;">
                         <?php if (!empty($msg)) { ?>
-                            <span><?= $msg ?></span>
+                            <div id="msg"><?= $msg ?></div>
                         <?php } ?>
                     </div> <br>
                     <button type="submit" name="submit">Cập nhật</button>
@@ -108,5 +130,20 @@ require_once __DIR__ . "/../partials/header.php";
     </div>
 </body>
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+
+<script>
+    var message = document.getElementById("msg");
+    if (message) {
+        Swal.fire({
+            icon: 'success',
+            title: 'Cập nhật thành công!',
+            text: 'Bài viết đã được cập nhật',
+            confirmButtonText: 'OK',
+            didClose: () => {
+                window.location.href = 'dsbaidang.php'
+            }
+        })
+    }
+</script>
 
 </html>

@@ -95,19 +95,21 @@ require_once __DIR__ . '/../partials/header.php';
                     <div class="form-group">
                         <label for="title" style="text-align: left;">Tiêu đề :</label>
                         <input class="form-post" type="text" name="title" placeholder="Tiêu đề bài viết">
-                    </div><br>
+                    </div>
                     <div style="color: #B22222;">
                         <?php if (!empty($titleErr)) { ?>
                             <span><?= $titleErr ?></span>
                         <?php } ?>
-                    </div><br>
+                    </div>
                     <div class="form-group">
-                    <label for="content" style="text-align: left;"> Nội dung :</label>
-                        <textarea class="form-post" name="content" placeholder="Nội dung bài viết" ></textarea><br>
+                        <label for="content" style="text-align: left;"> Nội dung :</label>
+                        <textarea class="form-post" name="content" placeholder="Nội dung bài viết"></textarea><br>
+                    </div><br>
+                    <div style="color: #B22222;">
                         <?php if (!empty($contentErr)) { ?>
                             <span><?= $contentErr ?></span>
                         <?php } ?>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <input class="form-post" type="file" name="image_post">
                     </div><br>

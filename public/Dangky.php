@@ -90,7 +90,7 @@ require_once __DIR__ . '/../partials/header.php';
             </div><br>
             <div class="from-group text-center " style="color: #B22222;">
                 <?php if (!empty($msg)) { ?>
-                    <span id="msg"><?= $msg ?></span>
+                    <span><?= $msg ?></span>
                 <?php } ?>
             </div> <br><br>
             <div class="from-group">
