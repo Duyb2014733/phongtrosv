@@ -47,7 +47,7 @@ if (isset($_POST['register'])) {
         ]);
         
         $successMsg = "Thêm thông tin thành công!";
-        header('Location: index.php');
+        header('Location: index_owner.php');
     }
     }
     
@@ -89,5 +89,5 @@ require_once __DIR__ . '/../partials/header.php';
         </form>
     </div>
 </body>
-
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </html>

@@ -102,7 +102,6 @@ require_once __DIR__ . '/../partials/header.php';
     </div>
 
 </body>
-
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </html>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
