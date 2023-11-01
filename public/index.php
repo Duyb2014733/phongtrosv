@@ -52,10 +52,12 @@ require_once __DIR__ . '/../partials/header.php';
                 <span class="sr-only">Next</span>
             </a>
         </div>
-    </div>
+    </div><br><br>
     <div class="container">
         <div class="column">
+            <h1 style="text-align: center;">Các Bài Đăng</h1>
             <div class="col-sm-4">
+                
                 <?php
                 // Vòng lặp để hiển thị các bài đăng
                 foreach ($posts as $post) {

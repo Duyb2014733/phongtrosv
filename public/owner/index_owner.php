@@ -56,6 +56,7 @@ require_once __DIR__ . '/../partials/header.php';
             </a>
         </div><br><br>
         <div class="row">
+            <h1 style="text-align: center;">Các Bài Đăng</h1>
             <div class="col-md-8 offset-md-2">
                 <?php
                 // Vòng lặp để hiển thị các bài đăng
