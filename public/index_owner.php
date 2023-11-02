@@ -5,7 +5,7 @@ if (!isset($_SESSION['id_name'])) {
     header('Location: Dangnhap.php');
 }
 
-$sql = "SELECT title, content, image_post 
+$sql = "SELECT title, content, image 
         FROM post
         ORDER BY created_at DESC";
 
@@ -63,7 +63,7 @@ require_once __DIR__ . '/../partials/header.php';
                 foreach ($posts as $post) {
 
                     echo '<div class="post card mb-3"">';
-                    echo '<img src="' . $post['image_post'] . '" class="card-img-top" alt="Image" >';
+                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image" >';
                     echo '<div class="card-body">';
                     echo '<h2 class="card-title">' . $post['title'] . '</h2>';
                     echo '<p class="card-text">' . $post['content'] . '</p>';

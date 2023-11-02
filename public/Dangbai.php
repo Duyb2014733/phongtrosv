@@ -1,75 +1,27 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
-if (!isset($_SESSION['id_name'])) {
+
+use website\labs\Post;
+
+if (!isset($_SESSION['id_owner'])) {
     header('Location: Dangnhap.php');
 }
-// Xử lý khi submit form
+
+$post = new Post($PDO);
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    function uploadImage($image)
-    {
-        if (!isset($image) && !is_array($image)) {
-            return false;
-        }
-        // Thư mục lưu file
-        $target_dir = "./img/";
-
-        // Tên file mới 
-        $target_file = $target_dir . time() . "-" . basename($image["name"]);
-
-        // Kiểm tra kích thước và định dạng file
-        $allowed = array('jpg', 'jpeg', 'png');
-        $ext = pathinfo($target_file, PATHINFO_EXTENSION);
-        if ($image['size'] > 1000000 || !in_array($ext, $allowed)) {
-            return false;
-        }
-
-        // Thực hiện upload 
-        if (move_uploaded_file($image['tmp_name'], $target_file)) {
-            return $target_file; // Trả về đường dẫn file đã lưu
-        }
-
-        return false;
-    }
-
-    // Kiểm tra biến $_POST
-    if (!isset($_POST) || !is_array($_POST)) {
-        return false;
-    }
-
-    // Lấy dữ liệu
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $status_post = $_POST['status_post'];
-    $id_owner = $_SESSION['id_owner']; // lấy từ phiên đăng nhập
-    $image_post = $_FILES['image_post'];
-    $imagePath = uploadImage($image_post);
+    $status = $_POST['status_post'];
+    $id_owner = $_SESSION['id_owner'];
 
-    $titleErr = $contentErr = "";
-    if (empty($title)) {
-        $titleErr = "Phải nhập tiêu đề bài viết!";
-    }
+    $image = $_FILES['image_post'];
 
-    if (empty($content)) {
-        $contentErr = "Phải nhập nội dung!";
-    }
-
-    if (!empty($titleErr) && empty($contentErr)) {
-        // Insert vào bảng post
-        $sql = "INSERT INTO post(title, content, image_post, created_at, update_at, status_post, id_owner) 
-        VALUES(:title, :content, :image_post, now(), now(), :status_post, :id_owner)";
-
-        $statement = $PDO->prepare($sql);
-        $statement->execute([
-            ':title' => $title,
-            ':content' => $content,
-            ':image_post' => $imagePath,
-            ':status_post' => $status_post,
-            ':id_owner' => $id_owner
-        ]);
-        $msg = "Đăng bài thành công!";
-        header("Location: dsbaidang.php");
+    if ($post->addPost($title, $content, $image, $status, $id_owner)) {
+        $success = 'Đăng bài thành công!';
+    } else {
+        $errors = $post->getErrors();
     }
 }
 
@@ -81,56 +33,75 @@ require_once __DIR__ . '/../partials/header.php';
 <?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
 
 <head>
-    <title>Bài đăng</title>
+    <title>Đăng bài viết</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                <form method="post" enctype="multipart/form-data" class="register-form">
-                    <h1>
-                        Đăng Bài
-                    </h1>
-                    <div class="form-group">
-                        <label for="title" style="text-align: left;">Tiêu đề :</label>
-                        <input class="form-post" type="text" name="title" placeholder="Tiêu đề bài viết">
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data" class="form-horizontal">
+                <h1>Đăng bài viết</h1>
+                <div class="form-group">
+                    <label for="title" class="col-sm-3 control-label">Tiêu đề:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="title" placeholder="Tiêu đề bài viết">
                     </div>
-                    <div style="color: #B22222;">
-                        <?php if (!empty($titleErr)) { ?>
-                            <span><?= $titleErr ?></span>
-                        <?php } ?>
+                </div>
+                <div class="form-group">
+                    <label for="content" class="col-sm-3 control-label">Nội dung:</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="content" placeholder="Nội dung bài viết"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label for="content" style="text-align: left;"> Nội dung :</label>
-                        <textarea class="form-post" name="content" placeholder="Nội dung bài viết"></textarea><br>
-                    </div><br>
-                    <div style="color: #B22222;">
-                        <?php if (!empty($contentErr)) { ?>
-                            <span><?= $contentErr ?></span>
-                        <?php } ?>
+                </div>
+                <div class="form-group">
+                    <label for="image_post" class="col-sm-3 control-label">Hình ảnh:</label>
+                    <div class="col-sm-9">
+                        <input type="file" name="image_post">
                     </div>
-                    <div class="form-group">
-                        <input class="form-post" type="file" name="image_post">
-                    </div><br>
-                    <div class="form-group">
-                        <select name="status_post">
+                </div>
+                <div class="form-group">
+                    <label for="status_post" class="col-sm-3 control-label">Trạng thái:</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="status_post">
                             <option value="draft">Bản nháp</option>
                             <option value="published">Công khai</option>
-                        </select><br>
+                        </select>
                     </div>
-                    <div class="from-group text-center " style="color: #B22222;">
-                        <?php if (!empty($msg)) { ?>
-                            <span><?= $msg ?></span>
-                        <?php } ?>
-                    </div> <br>
-                    <button type="submit" name="submit">Đăng bài</button>
-                </form>
-            </div>
+                </div>
+                <div class="form-group">
+                    <?php if (isset($errors) && !empty($errors)) { ?>
+                        <div class="alert alert-danger">
+                            <ul>
+                                <?php foreach ($errors as $field => $error) { ?>
+                                    <li><?= $error ?></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+                    <?php if (isset($success)) { ?>
+                        <div class="alert alert-success"><?= $success ?></div>
+                    <?php } ?>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary" name="submit">Đăng bài</button>
+                    </div>
+                    <div class="col-sm-offset-3 col-sm-9">
+                    <a href="dsbaidang.php" type="button" class="btn btn-default">Close</a>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
 </body>
+
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </html>

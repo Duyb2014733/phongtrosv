@@ -1,39 +1,35 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
+use website\labs\User;
+
 session_start();
 
-if (isset($_POST['login'])) {
+if (isset($_POST['login']) && ($_POST['login'])) {
+    $user = new User($PDO);
 
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $kq = $user->getUser($username);
 
-    // Lấy user dựa vào username
-    $sql = "SELECT * FROM user WHERE username = :username";
-
-    $statement = $PDO->prepare($sql);
-    $statement->execute([':username' => $username]);
-
-    $user = $statement->fetch();
-    // Kiểm tra password
-    if ($user && password_verify($password, $user['password'])) {
-
-        $sql = "SELECT id_owner FROM owner WHERE id_name = :id_name";
-
-        $statement = $PDO->prepare($sql);
-        $statement->execute([':id_name' => $user['id_name']]);
-
-        $owner = $statement->fetch();
-
-        $_SESSION['id_owner'] = $owner['id_owner'];
-        $_SESSION['id_name'] = $user['id_name'];
-        $_SESSION['username'] = $user['username'];
-        if (isset($_SESSION['role']) && $_SESSION['role'] == 'Owner') {
+    $role = $user->checkUserRole($username, $password);
+    
+    $id_owner = $user->getOwnerIdByIdName($username);
+    if ($role != null) {
+        if ($role == 'Admin') {
+            $_SESSION['role'] = $role;
+            header('Location: admin.php');
+        } else if ($role == 'Owner') {
+            $_SESSION['role'] = $role;
+            $_SESSION['username'] = $kq;
+            
+            $_SESSION['id_owner'] = $id_owner;
             header('Location: index_owner.php');
-            exit;
+        } else {
+            $error = 'Tài khoản và mật khẩu sai!';
         }
     } else {
-        $error = 'Sai thông tin đăng nhập';
+        $error = 'Tài khoản và mật khẩu sai!';
     }
 }
 require_once __DIR__ . '/../partials/header.php';

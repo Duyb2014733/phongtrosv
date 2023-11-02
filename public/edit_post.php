@@ -1,149 +1,89 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
+
+use website\labs\Post;
+
 session_start();
+
 if (!isset($_SESSION['id_name'])) {
     header('Location: Dangnhap.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    function uploadImage($image)
-    {
-        if (!isset($image) && !is_array($image)) {
-            return false;
-        }
-        // Thư mục lưu file
-        $target_dir = "./img/";
-
-        // Tên file mới 
-        $target_file = $target_dir . time() . "-" . basename($image["name"]);
-
-        // Kiểm tra kích thước và định dạng file
-        $allowed = array('jpg', 'jpeg', 'png');
-        $ext = pathinfo($target_file, PATHINFO_EXTENSION);
-        if ($image['size'] > 1000000 || !in_array($ext, $allowed)) {
-            return false;
-        }
-
-        // Thực hiện upload 
-        if (move_uploaded_file($image['tmp_name'], $target_file)) {
-            return $target_file; // Trả về đường dẫn file đã lưu
-        }
-
-        return false;
-    }
-
-    // Kiểm tra biến $_POST
-    if (!isset($_POST) || !is_array($_POST)) {
-        return false;
-    }
-
-
-    $id_post = $_SESSION['id_post'];
+    // Lấy dữ liệu bài đăng được chỉnh sửa từ form và thực hiện cập nhật vào cơ sở dữ liệu
+    $id_post = $_POST['id_post'];
     $title = $_POST['title'];
     $content = $_POST['content'];
-    $status_post = $_POST['status_post'];
-    $id_owner = $_SESSION['id_owner']; // lấy từ phiên đăng nhập
-    $image_post = $_FILES['image_post'];
-    $imagePath = uploadImage($image_post);
+    $image = $_FILES['image_post'];
+    $status = $_POST['status_post'];
+    $post = new Post($PDO);
 
-    $titleErr = $contentErr = "";
-    if (empty($title)) {
-        $titleErr = "Phải nhập tiêu đề bài viết!";
-    }
-
-    if (empty($content)) {
-        $contentErr = "Phải nhập nội dung!";
-    }
-
-    if (!empty($titleErr) && empty($contentErr)) {
-        // Câu lệnh UPDATE
-        $sql = "UPDATE post SET title = :title, content = :content, image_post = :image_post, created_at = now(), update_at = now(), status_post = :status_post, id_owner = :id_owner WHERE id_post = :id_post";
-
-        $statement = $PDO->prepare($sql);
-
-        $statement->execute([
-            ':id_post' => $id_post,
-            ':title' => $title,
-            ':content' => $content,
-            ':image_post' => $imagePath,
-            ':status_post' => $status_post,
-            ':id_owner' => $id_owner
-        ]);
-        $msg = "Cập nhật thành công!";
+    if ($post->editPost($id_post, $title, $content, $image, $status)) {
+        $success = 'Cập nhật bài đăng thành công!';
+    } else {
+        $errors = $post->getErrors();
     }
 }
-require_once __DIR__ . "/../partials/header.php";
+
+// Lấy thông tin bài đăng cần chỉnh sửa
+$id_post = $_GET['id_post'];
+$post = new Post($PDO);
+$postData = $post->getPostById($id_post);
+
+// Hiển thị biểu mẫu chỉnh sửa bài đăng
+require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <!DOCTYPE html>
 <html lang="vi">
-<?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
+    <?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
 
-<head>
-    <title>
-        Câp nhật bài đăng
-    </title>
-</head>
+    <head>
+        <title>Chỉnh sửa bài đăng</title>
+    </head>
 
-<body>
-    <div class="container text-center">
-        <div class="row">
-            <div class="col-12">
-                <form action="" method="post" enctype="multipart/form-data" class="register-form">
-                    <h2>Cập nhật bài đăng</h2>
-                    <div class="form-group">
-                        <label for="title" style="text-align: left;">Tiêu đề :</label>
-                        <input class="form-post" type="text" name="title" placeholder="Tiêu đề bài viết">
-                    </div><br>
-                    <div style="color: #B22222;">
-                        <?php if (!empty($titleErr)) { ?>
-                            <span><?= $titleErr ?></span>
+    <body>
+        <div class="container">
+            <h2>Chỉnh sửa bài đăng</h2><br>
+            <?php if (isset($success)) { ?>
+                <div class="alert alert-success"><?= $success ?></div>
+            <?php } ?>
+            <?php if (isset($errors) && !empty($errors)) { ?>
+                <div class="alert alert-danger">
+                    <ul>
+                        <?php foreach ($errors as $field => $error) { ?>
+                            <li><?= $error ?></li>
                         <?php } ?>
-                    </div><br>
-                    <div class="form-group">
-                        <label for="content" style="text-align: left;"> Nội dung :</label>
-                        <textarea class="form-post" name="content" placeholder="Nội dung bài viết"></textarea><br>
-                    </div><br>
-                    <div style="color: #B22222;">
-                    <?php if (!empty($contentErr)) { ?>
-                            <span><?= $contentErr ?></span>
-                        <?php } ?>
-                    </div>
-                    <div class="form-group">
-                        <input class="form-post" type="file" name="image_post">
-                    </div><br>
-                    <div class="form-group">
-                        <select name="status_post">
-                            <option value="draft">Bản nháp</option>
-                            <option value="published">Công khai</option>
-                        </select><br>
-                    </div><br>
-                    <div class="from-group text-center " style="color: #B22222;">
-                        <?php if (!empty($msg)) { ?>
-                            <div id="msg"><?= $msg ?></div>
-                        <?php } ?>
-                    </div> <br>
-                    <button type="submit" name="submit">Cập nhật</button>
-                </form>
-            </div>
+                    </ul>
+                </div>
+            <?php } ?>
+
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id_post" value="<?= $id_post ?>">
+                <div class="form-group">
+                    <label for="title">Tiêu đề:</label>
+                    <input type="text" name="title" value="<?= $postData['title'] ?>">
+                </div>
+                <div class="form-group">
+                    <label for="content">Nội dung:</label>
+                    <textarea name="content"><?= $postData['content'] ?></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image_post">Hình ảnh:</label>
+                    <input type="file" name="image_post">
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="status_post">
+                        <option value="draft" <?= $postData['status_post'] === 'draft' ? 'selected' : '' ?>>Bản nháp</option>
+                        <option value="published" <?= $postData['status_post'] === 'published' ? 'selected' : '' ?>>Công khai</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Cập nhật bài đăng</button>
+                </div>
+            </form>
         </div>
-    </div>
-</body>
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
-
-<script>
-    var message = document.getElementById("msg");
-    if (message) {
-        Swal.fire({
-            icon: 'success',
-            title: 'Cập nhật thành công!',
-            text: 'Bài viết đã được cập nhật',
-            confirmButtonText: 'OK',
-            didClose: () => {
-                window.location.href = 'dsbaidang.php'
-            }
-        })
-    }
-</script>
+    </body>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </html>
