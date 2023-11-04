@@ -22,7 +22,6 @@ if (isset($_POST['login']) && ($_POST['login'])) {
         } else if ($role == 'Owner') {
             $_SESSION['role'] = $role;
             $_SESSION['username'] = $kq;
-            
             $_SESSION['id_owner'] = $id_owner;
             header('Location: index_owner.php');
         } else {

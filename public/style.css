@@ -1,0 +1,49 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+  font-family: "SF Pro", sans-serif;
+  color: #333;
+  background-color: #dae3e7;
+}
+
+
+.btn {
+  background-color: #0077ff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+  
+.btn:hover {
+    background-color: #0052cc;
+}
+  
+/* index */
+img {
+  text-align: center;
+  height: auto;
+  width: 100%;
+  align-items: center;
+}
+
+#myCarousel{
+  top: 10px;
+  padding: 20px;
+  align-items: center;
+}
+
+/* end index */
+
+
+/* footer */
+
+footer{
+  background: #333;
+  color: #fff;
+  padding: 10px;
+}
+
+/* end footer */

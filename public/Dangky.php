@@ -14,8 +14,8 @@ if (isset($_POST['register']) && ($_POST['register'])) {
     $add = $user ->addUser($username, $password, $role);
 
     // Sau khi INSERT dữ liệu đăng ký thành công
-    if ($add > 0) {
-
+    if (is_string($add)) {
+        $error = $add;
         $id_name = $PDO->lastInsertId('id_name');
         // Nếu là chủ trọ
         if ($role == 'Owner') {
@@ -63,8 +63,8 @@ require_once __DIR__ . '/../partials/header.php';
                 </select>
             </div><br>
             <div class="from-group text-center " style="color: #B22222;">
-                <?php if (!empty($msg)) { ?>
-                    <span><?= $msg ?></span>
+                <?php if (!empty($error)) { ?>
+                    <span><?= $error ?></span>
                 <?php } ?>
             </div> <br><br>
             <div class="from-group">

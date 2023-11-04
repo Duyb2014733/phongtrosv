@@ -2,8 +2,7 @@
 require_once __DIR__ . '/../bootstrap.php';
 use website\labs\Post;
 session_start();
-
-if (!isset($_SESSION['id_name'])) {
+if (!isset($_SESSION['id_owner'])) {
     header('Location: Dangnhap.php');
 }
 

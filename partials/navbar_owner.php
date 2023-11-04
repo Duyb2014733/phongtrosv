@@ -1,10 +1,10 @@
-<nav class="navbar navbar-inverse">
+<nav  class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">Thuê Phòng Trọ</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class=""><a href="/index_owner.php">Home</a></li>
+      <li><a href="/index_owner.php">Home</a></li>
       <li><a href="/dsbaidang.php">Danh sách bài đăng</a></li>
       <li><a href="/dsroom.php">Danh sách phòng</a></li>
     </ul>
