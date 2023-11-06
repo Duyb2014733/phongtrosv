@@ -71,7 +71,7 @@ class Post
         return $post;
     }
 
-    public function addPost($title, $content, $image, $status, $id_owner)
+    public function addPost($title, $content, $image, $status, $id_owner, $id_room)
     {
 
         $this->clearErrors(); // Xóa các thông báo lỗi trước đó
@@ -99,8 +99,8 @@ class Post
         }
 
         // Thêm bài đăng vào cơ sở dữ liệu
-        $sql = "INSERT INTO post (title, content, image, status, id_owner) 
-                VALUES (:title, :content, :image, :status, :id_owner)";
+        $sql = "INSERT INTO post (title, content, image, status, id_owner, id_room) 
+                VALUES (:title, :content, :image, :status, :id_owner, :id_room)";
 
         $statement = $this->db->prepare($sql);
         $statement->execute([
@@ -108,7 +108,8 @@ class Post
             ':content' => $content,
             ':image' => $imagePath, // Đường dẫn tới tệp ảnh đã tải lên
             ':status' => $status,
-            ':id_owner' => $id_owner
+            ':id_owner' => $id_owner,
+            ':id_room' => $id_room
         ]);
 
         return true;// Không có lỗi, bài đăng được thêm thành công

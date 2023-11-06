@@ -36,54 +36,66 @@ require_once __DIR__ . '/../partials/header.php';
 
 <!DOCTYPE html>
 <html lang="vi">
-    <?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
+<?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
 
-    <head>
-        <title>Chỉnh sửa bài đăng</title>
-    </head>
+<head>
+    <title>Chỉnh sửa bài đăng</title>
+</head>
 
-    <body>
-        <div class="container">
-            <h2>Chỉnh sửa bài đăng</h2><br>
-            <?php if (isset($success)) { ?>
-                <div class="alert alert-success"><?= $success ?></div>
-            <?php } ?>
-            <?php if (isset($errors) && !empty($errors)) { ?>
-                <div class="alert alert-danger">
-                    <ul>
-                        <?php foreach ($errors as $field => $error) { ?>
-                            <li><?= $error ?></li>
-                        <?php } ?>
-                    </ul>
-                </div>
-            <?php } ?>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+            </div>
+            <div class="col-sm-10 pt-4 px-3">
+                <div>
+                    <h2>Chỉnh sửa bài đăng</h2><br>
+                    <?php if (isset($success)) { ?>
+                        <div class="alert alert-success"><?= $success ?></div>
+                    <?php } ?>
+                    <?php if (isset($errors) && !empty($errors)) { ?>
+                        <div class="alert alert-danger">
+                            <ul>
+                                <?php foreach ($errors as $field => $error) { ?>
+                                    <li><?= $error ?></li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
 
-            <form method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id_post" value="<?= $id_post ?>">
-                <div class="form-group">
-                    <label for="title">Tiêu đề:</label>
-                    <input type="text" name="title" value="<?= $postData['title'] ?>">
+                    <form method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="id_post" value="<?= $id_post ?>">
+                        <div class="form-group">
+                            <label for="title">Tiêu đề:</label>
+                            <input type="text" name="title" value="<?= $postData['title'] ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="content">Nội dung:</label>
+                            <textarea name="content"><?= $postData['content'] ?></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="image_post">Hình ảnh:</label>
+                            <input type="file" name="image_post">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" name="status_post">
+                                <option value="draft" <?= $postData['status_post'] === 'draft' ? 'selected' : '' ?>>Bản nháp</option>
+                                <option value="published" <?= $postData['status_post'] === 'published' ? 'selected' : '' ?>>Công khai</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit">Cập nhật bài đăng</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="content">Nội dung:</label>
-                    <textarea name="content"><?= $postData['content'] ?></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="image_post">Hình ảnh:</label>
-                    <input type="file" name="image_post">
-                </div>
-                <div class="form-group">
-                    <select class="form-control" name="status_post">
-                        <option value="draft" <?= $postData['status_post'] === 'draft' ? 'selected' : '' ?>>Bản nháp</option>
-                        <option value="published" <?= $postData['status_post'] === 'published' ? 'selected' : '' ?>>Công khai</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button type="submit">Cập nhật bài đăng</button>
-                </div>
-            </form>
+                <br>
+                <hr><br>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+            </div>
         </div>
-    </body>
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+
+    </div>
+</body>
 
 </html>

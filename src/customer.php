@@ -1,6 +1,9 @@
 <?php
+
 namespace website\labs;
+
 use PDO;
+
 class Customer
 {
     private ?PDO $db;
@@ -63,15 +66,15 @@ class Customer
         }
     }
 
-    public function hienCustomer()
+    public function getCustomers()
     {
-        try {
-            $sql = "SELECT * FROM customer";
-            $statement = $this->db->query($sql);
-            return $statement->fetchAll();
-        } catch (\PDOException $e) {
-            // Xử lý lỗi
-            return false;
+        $sql = "SELECT * FROM customer";
+        $statement = $this->db->query($sql);
+
+        if ($statement) {
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        return [];
     }
 }

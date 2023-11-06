@@ -1,6 +1,9 @@
 <?php
+
 namespace website\labs;
+
 use PDO;
+
 class Room
 {
     private ?PDO $db;
@@ -14,7 +17,7 @@ class Room
     {
         $sql = "INSERT INTO room (name_room, price_room, area_room, security_room, description_room, status_room, id_owner)
                 VALUES (:name_room, :price_room, :area_room, :security_room, :description_room, :status_room, :id_owner)";
-        
+
         $statement = $this->db->prepare($sql);
         return $statement->execute([
             ':name_room' => $name_room,
@@ -33,7 +36,7 @@ class Room
                 SET name_room = :name_room, price_room = :price_room, area_room = :area_room, security_room = :security_room, 
                     description_room = :description_room, status_room = :status_room, id_owner = :id_owner 
                 WHERE id_room = :id_room";
-        
+
         $statement = $this->db->prepare($sql);
         return $statement->execute([
             ':id_room' => $id_room,
@@ -63,11 +66,12 @@ class Room
         return $statement->fetch();
     }
 
-    public function getIdPost($id_room) {
-        $sql = "SELECT id_post FROM room WHERE id_room = :id_room";
+    public function getRoomsForOwner($id_owner)
+    {
+        $sql = "SELECT id_room, name_room FROM room WHERE id_owner = :id_owner";
         $statement = $this->db->prepare($sql);
-        $statement->execute([':id_room' => $id_room]);
-        $result = $statement->fetchColumn();
-        return $result;
+        $statement->execute([':id_owner' => $id_owner]);
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

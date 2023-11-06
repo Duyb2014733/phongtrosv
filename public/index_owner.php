@@ -16,48 +16,41 @@ $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 require_once __DIR__ . '/../partials/header.php';
 ?>
-<!DOCTYPE html>
-<html eng=vi>
-
+<head>
+    <title>
+        Trang chủ 
+    </title>
+</head>
 <body>
     <div class="container-fluid">
-
         <div class="row">
-            <div class="col-sm-2">
-                <?php require_once __DIR__ . '/../partials/navbar_sidebar.php'; ?>
-            </div>
-            <div class="col-sm-10">
-                <div>
-                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#myCarousel" data-slide-to="1"></li>
-                            <li data-target="#myCarousel" data-slide-to="2"></li>
-                        </ol>
-
+            <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+            <div class="col-sm-10 main">
+                <div >
+                    <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#demo" data-bs-slide-to="2"></button>
+                        </div>
                         <div class="carousel-inner">
-                            <div class="item active">
-                                <img src="/img/1.jpg" alt="1">
+                            <div class="carousel-item active">
+                                <img src="/img/1.jpg" alt="1" class="d-block" style="width:100%">
                             </div>
-
-                            <div class="item">
-                                <img src="/img/2.jpg" alt="2">
+                            <div class="carousel-item">
+                                <img src="/img/2.jpg" alt="2" class="d-block" style="width:100%">
                             </div>
-
-                            <div class="item">
-                                <img src="/img/3.jpg" alt="3">
+                            <div class="carousel-item">
+                                <img src="/img/3.jpg" alt="3" class="d-block" style="width:100%">
                             </div>
                         </div>
-
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div><br><br>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
                     <div>
                         <h1 style="text-align: center;">Các Bài Đăng</h1>
                         <div class="col-md-8 offset-md-2">
@@ -76,20 +69,12 @@ require_once __DIR__ . '/../partials/header.php';
                             ?>
                         </div>
                     </div>
+                    <hr class="text-white">
                     <?php require_once __DIR__ . '/../partials/footer.php'; ?>
                 </div>
-
             </div>
-
         </div>
-
-
-
     </div>
-
-
-
 </body>
-
 
 </html>

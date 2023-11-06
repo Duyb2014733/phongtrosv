@@ -11,7 +11,7 @@ if (isset($_POST['register']) && ($_POST['register'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
     $role = $_POST['role'];
-    $add = $user ->addUser($username, $password, $role);
+    $add = $user->addUser($username, $password, $role);
 
     // Sau khi INSERT dữ liệu đăng ký thành công
     if (is_string($add)) {
@@ -35,7 +35,6 @@ require_once __DIR__ . '/../partials/header.php';
 
 <!DOCTYPE html>
 <html lang="vi">
-<?php require_once __DIR__ . '/../partials/navbar.php'; ?>
 
 <head>
     <title>Đăng ký tài khoản</title>
@@ -43,39 +42,50 @@ require_once __DIR__ . '/../partials/header.php';
 
 <body>
 
-    <div class="container">
-
-        <form action="" method="post" class="register-form">
-            <h1>Đăng ký</h1><br>
-            <div class="from-group">
-                <label for="username">Username :</label>
-                <input type="text" class="form-control mr-sm-2" name="username" placeholder="Tên đăng ký" required>
-            </div><br><br>
-            <div class="from-group">
-                <label for="password">Password :</label>
-                <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
-            </div><br><br>
-            <div class="from-group">
-                <label for="role">Vai trò :</label>
-                <select name="role">
-                    <option value="Owner">Chủ trọ</option>
-                    <!-- <option value="Admin">Admin</option> -->
-                </select>
-            </div><br>
-            <div class="from-group text-center " style="color: #B22222;">
-                <?php if (!empty($error)) { ?>
-                    <span><?= $error ?></span>
-                <?php } ?>
-            </div> <br><br>
-            <div class="from-group">
-                <input type="submit" class="btn btn-primary" name="register" value="Đăng ký">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
-        </form>
+            <div class="col-sm-10 pt-4 px-3">
+                <div>
+                    <form action="" method="post" class="register-form">
+                        <h1>Đăng ký</h1><br>
+                        <div class="from-group">
+                            <label for="username">Username :</label>
+                            <input type="text" class="form-control mr-sm-2" name="username" placeholder="Tên đăng ký" required>
+                        </div><br><br>
+                        <div class="from-group">
+                            <label for="password">Password :</label>
+                            <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
+                        </div><br><br>
+                        <div class="from-group">
+                            <label for="role">Vai trò :</label>
+                            <select name="role">
+                                <option value="Owner">Chủ trọ</option>
+                                <!-- <option value="Admin">Admin</option> -->
+                            </select>
+                        </div><br>
+                        <div class="from-group text-center " style="color: #B22222;">
+                            <?php if (!empty($error)) { ?>
+                                <span><?= $error ?></span>
+                            <?php } ?>
+                        </div> <br><br>
+                        <div class="from-group">
+                            <input type="submit" class="btn btn-primary" name="register" value="Đăng ký">
+                        </div>
+                    </form>
+                </div>
+                <br><hr><br>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+            </div>
+        </div>
+
     </div>
 
     </div>
 
 </body>
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+
 
 </html>
