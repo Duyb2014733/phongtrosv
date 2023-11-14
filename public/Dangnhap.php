@@ -45,7 +45,7 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
-            <div class="col-sm-10 pt-4 px-3">
+            <div class="col-sm-10 pt-4 px-3 main">
                 <div class="">
                     <form action="" method="post" class="register-form ">
                         <h1>Đăng nhập</h1><br>

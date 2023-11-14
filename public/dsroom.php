@@ -39,7 +39,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-2">
                 <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
             </div>
-            <div class="col-sm-10 pt-4 px-3">
+            <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <h2>Danh sách phòng</h2><hr>
                     <?php if (isset($success)) { ?>
@@ -69,7 +69,7 @@ require_once __DIR__ . '/../partials/header.php';
                                     <td><?= $room['area_room'] ?></td>
                                     <td><?= $room['status_room'] ?></td>
                                     <td>
-                                        <a href="/addCustomer.php" class="btn btn-info" role="button">Thêm khách hàng</a>
+                                        <a href="/addRental.php" class="btn btn-info" role="button">Thêm khách hàng</a>
                                         <a href="/editRoom.php?id_room=<?php echo $room['id_room']; ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
                                         <a href="/deleteRoom.php?id_room=<?php echo $room['id_room']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
                                     </td>

@@ -1,29 +1,32 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
-$sql = "SELECT title, content, image 
-        FROM post
-        ORDER BY created_at DESC";
+$sql = "SELECT p.title, p.content, p.image, r.price_room, r.area_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
+        FROM post p
+        JOIN room r ON p.id_room = r.id_room
+        JOIN owner o ON r.id_owner = o.id_owner
+        ORDER BY p.created_at DESC";
 
 $statement = $PDO->prepare($sql);
 $statement->execute();
 
 $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-
 require_once __DIR__ . '/../partials/header.php';
 ?>
+
 <head>
-    <title>
-        Trang chủ
-    </title>
+    <title>Trang chủ</title>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
-            <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
-            <div class="col-sm-10 main">
-                <div class="padding">
+            <div class="col-sm-2">
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php"; ?>
+            </div>
+            <div class="col-sm-10 px-3 main">
+                <div>
                     <div id="demo" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-indicators">
                             <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
@@ -48,35 +51,37 @@ require_once __DIR__ . '/../partials/header.php';
                             <span class="carousel-control-next-icon"></span>
                         </button>
                     </div>
-                    <hr class="text-white">
+                    <hr>
                     <div>
                         <h1 style="text-align: center;">Các Bài Đăng</h1>
-                        <div class="col-sm-4">
-                            <?php
-                            // Vòng lặp để hiển thị các bài đăng
-                            foreach ($posts as $post) {
-
-                                echo '<div class="post post-list">';
-                                echo '<img src="' . $post['image'] . '" >';
-                                echo '<h2>' . $post['title'] . '</h2>';
-                                echo '<p>' . $post['content'] . '</p>';
-                                echo '</div>';
-                            }
-                            ?>
+                        <hr><br>
+                        <div class="container-fluid">
+                            <div class="row card_index">
+                                <?php
+                                foreach ($posts as $post) {
+                                    echo '<div class="col-sm-4">';
+                                    echo '<div class="card mb-3">';
+                                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image"><hr>';
+                                    echo '<div class="card-body d-flex flex-column">';
+                                    echo '<h2 class="card-title">' . $post['title'] . '</h2><hr>';
+                                    echo '<p class="card-text">' . $post['content'] . '</p>';
+                                    echo '<p class="card-text">Giá phòng: ' . $post['price_room'] . 'đ</p>';
+                                    echo '<p class="card-text">Khu vực: ' . $post['area_room'] . '</p>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                                ?>
+                            </div>
                         </div>
                     </div>
-                    <hr class="text-white">
+                    <br>
+                    <hr><br>
                     <?php require_once __DIR__ . '/../partials/footer.php'; ?>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-
-
 </body>
-
 </html>
+

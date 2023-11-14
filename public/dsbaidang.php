@@ -24,7 +24,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-2">
                 <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
             </div>
-            <div class="col-sm-10 pt-4 px-3">
+            <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <h2>Danh sách bài đăng</h2><hr>
                     <a href="/addPost.php" class="btn btn-primary btn-lg" role="button">Thêm</a><br>

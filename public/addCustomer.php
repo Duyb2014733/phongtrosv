@@ -1,37 +1,33 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-
 use website\labs\Customer;
-
 session_start();
 
 if (!isset($_SESSION['id_owner'])) {
     header('Location: Dangnhap.php');
 }
 
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $customer = new Customer($PDO);
     $name = $_POST['name'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
     $address = $_POST['address'];
 
-    $customerId = $customer->themCustomer($name, $phone, $email, $address);
+    $result = $customer->themCustomer($name, $phone, $email, $address);
 
-    if ($customerId) {
-        $success = 'Khách hàng được thêm thàng công!';
+    if (is_string($result)) {
+        $error = $result; // Handle the error message
     } else {
-        $error = 'Có lỗi khi thêm khách hàng!';
+        $success = 'Thêm khách hàng thành công!';
     }
 }
+
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
 <head>
-    <title>Add Customer</title>
+    <title>Thêm khách hàng</title>
 </head>
 
 <body>
@@ -40,42 +36,40 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-2">
                 <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
             </div>
-            <div class="col-sm-10 pt-4 px-3">
+            <div class="col-sm-10 pt-4 px-3 main">
                 <div>
-                    <?php if (isset($errors) && !empty($errors)) { ?>
+                    <h2>Thêm khách hàng</h2>
+                    <hr>
+                    <?php if (isset($error)) { ?>
                         <div class="alert alert-danger">
-                            <ul>
-                                <?php foreach ($errors as $field => $error) { ?>
-                                    <li><?= $error ?></li>
-                                <?php } ?>
-                            </ul>
+                            <?= $error ?>
                         </div>
                     <?php } ?>
                     <?php if (isset($success)) { ?>
-                        <div class="alert alert-success"><?= $success ?></div>
+                        <div class="alert alert-success">
+                            <?= $success ?>
+                        </div>
                     <?php } ?>
-
                     <form method="post">
-                        <h2>Thêm khách hàng</h2><hr>
                         <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input class="form-control" type="text" name="name" required>
+                            <label for="name">Tên khách hàng:</label>
+                            <input type="text" class="form-control" name="name" placeholder="Tên khách hàng" required>
                         </div><br>
                         <div class="form-group">
-                            <label for="phone">Phone:</label>
-                            <input class="form-control" type="text" name="phone" required>
+                            <label for="phone">Số điện thoại:</label>
+                            <input type="text" class="form-control" name="phone" placeholder="Số điện thoại" required>
                         </div><br>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input class="form-control" type="email" name="email" required>
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
                         </div><br>
                         <div class="form-group">
-                            <label for="address">Address:</label>
-                            <textarea class="form-control" name="address"></textarea> 
+                            <label for="address">Địa chỉ:</label>
+                            <textarea class="form-control" name="address" placeholder="Địa chỉ"></textarea>
                         </div><br>
                         <div class="form-group">
-                            <button class="btn btn-primary" type="submit">Thêm</button>
-                            <a class="btn btn-primary" href="dsbaidang.php">Close</a>
+                            <button type="submit" class="btn btn-primary">Thêm khách hàng</button>
+                            <a class="btn btn-primary" href="dsCustomer.php">Quay lại</a>
                         </div>
                     </form>
                 </div>
@@ -85,7 +79,5 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
         </div>
     </div>
-
 </body>
-
 </html>

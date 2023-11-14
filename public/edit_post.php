@@ -5,7 +5,7 @@ use website\labs\Post;
 
 session_start();
 
-if (!isset($_SESSION['id_name'])) {
+if (!isset($_SESSION['id_owner'])) {
     header('Location: Dangnhap.php');
 }
 
@@ -34,10 +34,6 @@ $postData = $post->getPostById($id_post);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="vi">
-<?php require_once __DIR__ . '/../partials/navbar_owner.php'; ?>
-
 <head>
     <title>Chỉnh sửa bài đăng</title>
 </head>
@@ -48,7 +44,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-2">
                 <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
             </div>
-            <div class="col-sm-10 pt-4 px-3">
+            <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <h2>Chỉnh sửa bài đăng</h2><br>
                     <?php if (isset($success)) { ?>
@@ -65,27 +61,29 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php } ?>
 
                     <form method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="id_post" value="<?= $id_post ?>">
+                        <input type="hidden" name="id_post" value="<?= $id_post ?>" class="form-control" required>
                         <div class="form-group">
                             <label for="title">Tiêu đề:</label>
-                            <input type="text" name="title" value="<?= $postData['title'] ?>">
-                        </div>
+                            <input type="text" name="title" value="<?= $postData['title'] ?>" class="form-control" required>
+                        </div><br>
                         <div class="form-group">
                             <label for="content">Nội dung:</label>
-                            <textarea name="content"><?= $postData['content'] ?></textarea>
-                        </div>
+                            <textarea name="content" class="form-control" required><?= $postData['content'] ?></textarea>
+                        </div><br>
                         <div class="form-group">
                             <label for="image_post">Hình ảnh:</label>
-                            <input type="file" name="image_post">
-                        </div>
+                            <input type="file" name="image_post" class="form-control" required>
+                        </div><br>
                         <div class="form-group">
+                            <label for="status_post">Trạng thái:</label>
                             <select class="form-control" name="status_post">
-                                <option value="draft" <?= $postData['status_post'] === 'draft' ? 'selected' : '' ?>>Bản nháp</option>
-                                <option value="published" <?= $postData['status_post'] === 'published' ? 'selected' : '' ?>>Công khai</option>
+                                <option value="draft">Bản nháp</option>
+                                <option value="published">Công khai</option>
                             </select>
-                        </div>
+                        </div><br>
                         <div class="form-group">
-                            <button type="submit">Cập nhật bài đăng</button>
+                            <button type="submit" class="btn btn-primary">Cập nhật bài đăng</button>
+                            <a class="btn btn-primary" href="dsbaidang.php">Close</a>
                         </div>
                     </form>
                 </div>

@@ -1,7 +1,8 @@
 <?php
+
 namespace website\labs;
 
-use PDO; 
+use PDO;
 
 class Owner
 {
@@ -24,6 +25,11 @@ class Owner
         $this->id_owner = $id_owner;
     }
 
-
+    public function getAllOwners()
+    {
+        $sql = "SELECT * FROM owner";
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
-?>

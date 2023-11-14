@@ -3,19 +3,22 @@ require_once __DIR__ . '/../bootstrap.php';
 session_start();
 
 use website\labs\Post;
-use website\labs\Room;
 
 if (!isset($_SESSION['id_owner'])) {
     header('Location: Dangnhap.php');
 }
+$sql = "SELECT * FROM room";
+$statement = $PDO->prepare($sql);
+$statement->execute();
+$rooms = $statement->fetchAll();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $post = new Post($PDO);
-    $room = new Room($PDO);
     $title = $_POST['title'];
     $content = $_POST['content'];
     $status = $_POST['status_post'];
     $id_owner = $_SESSION['id_owner'];
-    $id_room = $_SESSION('id_room');
+    $id_room = $_POST['id_room'];
     $image = $_FILES['image_post'];
 
     if ($post->addPost($title, $content, $image, $status, $id_owner, $id_room)) {
@@ -38,7 +41,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-2">
                 <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
             </div>
-            <div class="col-sm-10 pt-4 px-3">
+            <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <h2>Đăng bài viết</h2>
                     <hr>
@@ -67,17 +70,16 @@ require_once __DIR__ . '/../partials/header.php';
                             <label for="image_post">Hình ảnh:</label>
                             <input type="file" name="image_post">
                         </div><br>
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="room">Chọn phòng:</label>
-                            <select class="form-control" name="room">
+                            <select class="form-control" name="id_room">
                                 <?php
-                                $rooms = $room->getRoomsForOwner($_SESSION['id_owner']);
                                 foreach ($rooms as $room) {
                                     echo '<option value="' . $room['id_room'] . '">' . $room['name_room'] . '</option>';
                                 }
                                 ?>
                             </select>
-                        </div><br> -->
+                        </div><br>
                         <div class="form-group">
                             <label for="status_post">Trạng thái:</label>
                             <select class="form-control" name="status_post">

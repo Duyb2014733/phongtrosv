@@ -57,21 +57,27 @@ class Room
         return $statement->execute([':id_room' => $id_room]);
     }
 
-    public function viewRoom($id_room)
+    public function getRoomById($id_room)
     {
         $sql = "SELECT * FROM room WHERE id_room = :id_room";
         $statement = $this->db->prepare($sql);
         $statement->execute([':id_room' => $id_room]);
 
-        return $statement->fetch();
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getRoomsForOwner($id_owner)
+    public function getAllRooms()
     {
-        $sql = "SELECT id_room, name_room FROM room WHERE id_owner = :id_owner";
+        $sql = "SELECT * FROM room";
         $statement = $this->db->prepare($sql);
-        $statement->execute([':id_owner' => $id_owner]);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
+    public function getImagesByRoomId($id_room) {
+        $sql = "SELECT image FROM post WHERE id_room = :id_room";
+        $statement = $this->db->prepare($sql);
+        $statement->execute([':id_room' => $id_room]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

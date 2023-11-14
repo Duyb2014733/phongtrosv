@@ -158,7 +158,6 @@ class Post
         if ($result && !empty($imagePath) && is_file($imagePath)) {
             unlink($imagePath);
         }
-
         return $result;
     }
 }

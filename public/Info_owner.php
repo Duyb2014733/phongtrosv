@@ -64,7 +64,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-2">
             <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
             </div>
-            <div class="col-sm-10">
+            <div class="col-sm-10pt-4 px-3 main">
                 <div>
                     <form action="" method="post" class="register-form">
                         <h2>Nhập thông tin chủ trọ</h2>

@@ -14,7 +14,6 @@
                     <span>Home</span>
                 </a>
             </li>
-            
         </ul>
         <div class="footer">
             <hr>
