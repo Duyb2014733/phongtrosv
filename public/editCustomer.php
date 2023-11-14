@@ -1,11 +1,12 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\labs\Customer;
+use website\src\Customer;
 
 session_start();
-if (!isset($_SESSION['id_owner'])) {
-    header('Location: Dangnhap.php');
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
+    header('Location: login.php');
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -23,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors = 'Lỗi khi cập nhật!';
     }
 }
-
+// lấy thông tin khách hàng để chỉnh sửa
 $id_customer = $_GET['id_customer'];
 $customer = new Customer($PDO);
 $customerData = $customer->getCustomerById($id_customer);
@@ -41,7 +42,7 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
@@ -58,19 +59,19 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="form-group">
                             <label for="name">Tên khách hàng:</label>
                             <input type="text" name="name" value="<?= $customerData['name_customer'] ?>" class="form-control" required>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <label for="phone">Phone:</label>
                             <input type="text" name="phone" value="<?= $customerData['phone_customer'] ?>" class="form-control" required>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="email" name="email" value="<?= $customerData['email_customer'] ?>" class="form-control" required>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <label for="address">Address:</label>
                             <textarea name="address_customer" class="form-control" required><?= $customerData['address_customer'] ?></textarea>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
                             <a class="btn btn-primary" href="dsCustomer.php">Close</a>

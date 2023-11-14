@@ -1,14 +1,15 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
-if (!isset($_SESSION['id_owner'])) {
-    header('Location: Dangnhap.php');
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
+    header('Location: login.php');
+    exit();
 }
 
-use website\labs\Customer;
-use website\labs\Owner;
-use website\labs\Room;
-use website\labs\Rental;
+use website\src\Customer;
+use website\src\Owner;
+use website\src\Room;
+use website\src\Rental;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $start_date = $_POST['start_date'];
@@ -51,7 +52,7 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col sm-2">
-                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
@@ -103,7 +104,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </select>
                         <br>
                         <button type="submit" class="btn btn-primary">Thêm Rental</button>
-                        <a class="btn btn-primary" href="dsRoom.php">Close</a>
+                        <a class="btn btn-primary" href="dsRoom.php">Thoát</a>
                     </form>
                 </div>
                 <br>

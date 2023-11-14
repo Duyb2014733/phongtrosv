@@ -4,7 +4,10 @@ require_once __DIR__ . '/../bootstrap.php';
 use website\src\Owner;
 
 session_start();
-
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
+    header('Location: login.php');
+    exit();
+}
 $owner = new Owner($PDO);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -36,27 +39,29 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <form method="post">
-                        <h2>Nhập thông tin chủ trọ</h2><hr>
+                        <h2>Nhập thông tin chủ trọ</h2>
+                        <hr>
                         <div class="form-group">
                             <label for="name_owner">Name :</label><br>
                             <input type="text" name="name_owner" class="form-control" placeholder="Họ và tên chủ trọ">
                         </div><br>
                         <div class="form-group">
-                        <label for="phone_owner">Phone: </label><br>
-                            <input type="mumber" name="phone_owner"  class="form-control" placeholder="Số điện thoại chủ trọ">
+                            <label for="phone_owner">Phone: </label><br>
+                            <input type="mumber" name="phone_owner" class="form-control" placeholder="Số điện thoại chủ trọ">
                         </div><br>
                         <div class="form-group">
-                        <label for="email_owner">E-mail: </label><br>
-                            <input type="text" name="email_owner"  class="form-control" placeholder="Email chủ trọ">
+                            <label for="email_owner">E-mail: </label><br>
+                            <input type="text" name="email_owner" class="form-control" placeholder="Email chủ trọ">
                         </div><br>
                         <div class="form-group">
-                        <label for="address_owner">Address: </label><br>
-                            <input type="text" name="address_owner"  class="form-control" placeholder="Địa chỉ chủ trọ">
+                            <label for="address_owner">Address: </label><br>
+                            <input type="text" name="address_owner" class="form-control" placeholder="Địa chỉ chủ trọ">
                         </div><br>
-                        <button type="submit" class="btn btn-primary"  class="form-control" name="register">Thêm</button>
+                        <button type="submit" class="btn btn-primary" class="form-control" name="register">Thêm</button>
                     </form>
                 </div>
-                <br><hr><br>
+                <br>
+                <hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
             </div>
         </div>

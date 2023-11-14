@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\labs\Room;
-
+use website\src\Room;
 session_start();
-if (!isset($_SESSION['id_owner'])) {
-    header('Location: Dangnhap.php');
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
+    header('Location: login.php');
+    exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,6 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+$id_room = $_GET['id_room'];
+$room = new Room($PDO);
+$roomDatas = $room->getRoomById($id_room);
+
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
@@ -42,11 +46,11 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
-                    <h2>Cập nhật phòng</h2>
+                    <h2>Sửa thông tin phòng</h2>
                     <?php if (isset($success)) { ?>
                         <div class="alert alert-success"><?= $success ?></div>
                     <?php } ?>
@@ -56,15 +60,15 @@ require_once __DIR__ . '/../partials/header.php';
                     <form method="post">
                         <div class="form-group">
                             <label for="name">Tên phòng:</label>
-                            <input type="text" name="name" class="form-control" required>
+                            <input type="text" name="name" class="form-control" value="<?= $roomDatas['name_room'] ?>" required>
                         </div><br>
                         <div class="form-group">
                             <label for="price">Giá phòng:</label>
-                            <input type="text" name="price" class="form-control" required>
+                            <input type="text" name="price" class="form-control" value="<?= $roomDatas['price_room'] ?>" required>
                         </div><br>
                         <div class="form-group">
                             <label for="area">Khu vực:</label>
-                            <input type="text" name="area" class="form-control" required>
+                            <input type="text" name="area" class="form-control" value="<?= $roomDatas['area_room'] ?>" required>
                         </div><br>
                         <div class="form-group">
                             <label for="security">Cấp độ an toàn:</label>
@@ -76,7 +80,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </div><br>
                         <div class="form-group">
                             <label for="description">Mô tả phòng:</label>
-                            <textarea name="description" class="form-control" required></textarea>
+                            <textarea name="description" class="form-control" value="<?= $roomData['description_room'] ?>" required></textarea>
                         </div><br>
                         <div class="form-group">
                             <label for="status">Trạng thái phòng:</label>
@@ -88,12 +92,13 @@ require_once __DIR__ . '/../partials/header.php';
                         </div><br>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>
-                            <a class="btn btn-primary" href="dsRoom.php">Close</a>
+                            <a class="btn btn-primary" href="dsRoom.php">Thoát</a>
                         </div>
                     </form>
                 </div>
-                <br><hr><br>
-                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                <br>
+                <hr><br>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>
         </div>
 

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
 
-use website\labs\Room;
+use website\src\Room;
 
 if (isset($_GET['id_room'])) {
     $room = new Room($PDO);
@@ -29,7 +29,7 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>

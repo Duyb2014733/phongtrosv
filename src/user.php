@@ -1,6 +1,6 @@
 <?php
 
-namespace website\labs;
+namespace website\src;
 
 use PDO;
 
@@ -138,6 +138,41 @@ class User
             return $result['id_owner'];
         } else {
             return null; // Trả về null nếu không tìm thấy id_name
+        }
+    }
+
+    public function getAllUsers()
+    {
+        $sql = "SELECT * FROM user";
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function editUser($id, $username, $email)
+    {
+        $sql = "UPDATE user SET username = :username, email = :email WHERE id = :id";
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            ':id' => $id,
+            ':username' => $username,
+            ':email' => $email,
+        ]);
+    }
+
+    public function deleteUser($id_name)
+    {
+        $sql = "DELETE FROM user WHERE id_name = :id_name";
+        $statement = $this->db->prepare($sql);
+        $result = $statement->execute([':id_user' => $id_name]);
+
+        // Kiểm tra xem có bản ghi nào bị ảnh hưởng không
+        if ($result && $statement->rowCount() > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

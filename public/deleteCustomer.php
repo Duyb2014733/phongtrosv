@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-use website\labs\Customer;
+use website\src\Customer;
 session_start();
 
 if (!isset($_SESSION['id_owner'])) {

@@ -29,6 +29,11 @@ img {
   border-radius: 5px;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+
 #myCarousel {
   top: 10px;
   align-items: center;

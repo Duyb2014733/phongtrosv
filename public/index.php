@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
+
+use website\src\Pagination;
+
 session_start();
 $sql = "SELECT p.title, p.content, p.image, r.price_room, r.area_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
         FROM post p
@@ -73,15 +76,29 @@ require_once __DIR__ . '/../partials/header.php';
                                 }
                                 ?>
                             </div>
+                            <div>
+                                <?php
+                                // Sử dụng lớp Pagination
+                                $totalItems = 10;
+                                $itemsPerPage = 3;
+                                $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                                $baseUrl = 'index.php';
+                                $queryParameters = array('category' => 'news');
+
+                                $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage, $baseUrl, $queryParameters);
+                                echo $pagination->generatePaginationHtml();
+                                ?>
+                            </div>
+
                         </div>
                     </div>
                     <br>
                     <hr><br>
-                    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                    <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
                 </div>
             </div>
         </div>
     </div>
 </body>
-</html>
 
+</html>

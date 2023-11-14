@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-use website\labs\Room;
+use website\src\Room;
 
 session_start();
 

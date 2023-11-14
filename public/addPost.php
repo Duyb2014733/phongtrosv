@@ -2,10 +2,11 @@
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
 
-use website\labs\Post;
+use website\src\Post;
 
-if (!isset($_SESSION['id_owner'])) {
-    header('Location: Dangnhap.php');
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
+    header('Location: login.php');
+    exit();
 }
 $sql = "SELECT * FROM room";
 $statement = $PDO->prepare($sql);
@@ -39,7 +40,7 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>

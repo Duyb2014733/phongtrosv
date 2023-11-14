@@ -1,5 +1,5 @@
 <?php 
-namespace website\labs;
+namespace website\src;
 use PDO;
 class Rental
 {

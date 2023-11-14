@@ -1,12 +1,14 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\labs\Customer;
+use website\src\Pagination;
+use website\src\Customer;
 
 session_start();
 
-if (!isset($_SESSION['id_owner'])) {
-    header('Location: Dangnhap.php');
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
+    header('Location: login.php');
+    exit();
 }
 // lấy danh sách Customer
 $customer = new Customer($PDO);
@@ -25,12 +27,14 @@ require_once __DIR__ . '/../partials/header.php';
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-                <?php require_once __DIR__ . "/../partials/navbar_fixed_owner.php" ?>
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
-                    <h2>Danh sách khách hàng</h2><hr>
-                    <a href="/addCustomer.php" class="btn btn-primary btn-lg" role="button">Thêm</a><br><br>
+                    <h2>Danh sách khách hàng</h2>
+                    <hr>
+                    <a href="/addCustomer.php" class="btn btn-primary btn-lg" role="button">Thêm</a>
+                    <hr>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -63,10 +67,23 @@ require_once __DIR__ . '/../partials/header.php';
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <div>
+                        <?php
+                        // Sử dụng lớp Pagination
+                        $totalItems = 10;
+                        $itemsPerPage = 3;
+                        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                        $baseUrl = 'index.php';
+                        $queryParameters = array('category' => 'news');
+
+                        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage, $baseUrl, $queryParameters);
+                        echo $pagination->generatePaginationHtml();
+                        ?>
+                    </div>
                 </div>
                 <br>
                 <hr><br>
-                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>
         </div>
     </div>

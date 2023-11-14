@@ -1,6 +1,6 @@
 <?php
 
-namespace website\labs;
+namespace website\src;
 
 use PDO;
 
@@ -73,7 +73,6 @@ class Customer
             $statement->execute([':id' => $id]);
             return $statement->rowCount();
         } catch (\PDOException $e) {
-            // Xử lý lỗi
             return false;
         }
     }

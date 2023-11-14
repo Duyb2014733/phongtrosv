@@ -12,21 +12,6 @@ if (isset($_POST['register']) && ($_POST['register'])) {
     $password = $_POST['password'];
     $role = $_POST['role'];
     $add = $user->addUser($username, $password, $role);
-
-    // Sau khi INSERT dữ liệu đăng ký thành công
-    if (is_string($add)) {
-        $error = $add;
-        $id_name = $PDO->lastInsertId('id_name');
-        // Nếu là chủ trọ
-        if ($role == 'Owner') {
-            // Lưu session
-            $_SESSION['id_name'] = $id_name;
-            $_SESSION['role'] = 'Owner';
-            // Chuyển hướng
-            header('Location: info_owner.php');
-            exit();
-        }
-    }
 }
 
 
@@ -37,7 +22,7 @@ require_once __DIR__ . '/../partials/header.php';
 <html lang="vi">
 
 <head>
-    <title>Đăng ký tài khoản</title>
+    <title>Đăng ký thành viên</title>
 </head>
 
 <body>
@@ -50,37 +35,34 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <form method="post">
-                        <h1>Đăng ký</h1><hr>
+                        <h1>Đăng ký thành viên </h1>
+                        <hr>
+                        <div class="from-group text-center " style="color: #B22222;">
+                            <?php if (!empty($error)) { ?>
+                                <span><?= $error ?></span>
+                            <?php } ?>
+                        </div><br>
                         <label for="username">Tên đăng ký :</label><br>
                         <input type="text" class="form-control mr-sm-2" name="username" placeholder="Tên đăng ký" required>
                         <br>
                         <label for="password">Mật khẩu :</label><br>
                         <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
                         <br>
-                        <label for="role">Vai trò :</label>
+                        <label for="role">Vai trò :</label><br>
                         <select name="role">
                             <option value="Owner">Chủ trọ</option>
+                            <option value="Admin">Admin</option>
                         </select>
                         <br>
-                        <div class="from-group text-center " style="color: #B22222;">
-                            <?php if (!empty($error)) { ?>
-                                <span><?= $error ?></span>
-                            <?php } ?>
-                        </div> <br><br>
                         <input type="submit" class="btn btn-primary" name="register" value="Đăng ký">
                     </form>
                 </div>
                 <br>
                 <hr><br>
-                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>
         </div>
-
     </div>
-
-    </div>
-
 </body>
-
 
 </html>
