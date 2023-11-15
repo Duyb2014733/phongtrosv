@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-
+use website\src\Pagination;
 use website\src\Owner;
 
 session_start();
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 
@@ -56,14 +56,26 @@ require_once __DIR__ . '/../partials/header.php';
                                     <td><?php echo $owner['address_owner']; ?></td>
                                     <td>
                                         <a href="/editOwner.php?id_owner=<?php echo $owner['id_owner']; ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
-                                        <a href="/deleteOwner_admin.php?id_owner=<?php echo $owner['id_owner']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
+                                        <a href="/delete.php?id_owner=<?php echo $owner['id_owner']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
-                    </table>
+                    </table><br><hr>
+                    <div>
+                        <?php
+                        // Sử dụng lớp Pagination
+                        $totalItems = 10;
+                        $itemsPerPage = 3;
+                        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                        $baseUrl = 'index.php';
+                        $queryParameters = array('category' => 'news');
+
+                        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage, $baseUrl, $queryParameters);
+                        echo $pagination->generatePaginationHtml();
+                        ?>
+                    </div>
                 </div>
-                <br>
                 <hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>

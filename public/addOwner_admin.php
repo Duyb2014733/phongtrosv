@@ -1,28 +1,30 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
+use website\src\User;
 use website\src\Owner;
 
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 $owner = new Owner($PDO);
-
+$user = new User($PDO);
+$users = $user->getAllUsers();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $name = $_POST['name_owner'];
     $phone = $_POST['phone_owner'];
     $email = $_POST['email_owner'];
     $address = $_POST['address_owner'];
-
-    if ($owner->addOwner($name, $phone, $email, $address)) {
+    $id_name = $users['id_name'];
+    if ($owner->addOwner($name, $phone, $email, $address, $id_name)) {
         $success = 'Thêm chủ nhà thành công!';
     } else {
         $error = 'Lỗi khi thêm chủ nhà!';
     }
 }
-
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
@@ -41,6 +43,16 @@ require_once __DIR__ . '/../partials/header.php';
                     <form method="post">
                         <h2>Nhập thông tin chủ trọ</h2>
                         <hr>
+                        <div class="form-group">
+                            <label for="username">Tài khoản :</label><br>
+                            <select name="username" class="form-control">
+                                <?php foreach ($users as $user) { ?>
+                                    <option value="<?= $user['id_name'] ?>">
+                                        <?= $user['username'] ?>
+                                    </option>
+                                <?php } ?>
+                            </select>
+                        </div><br>
                         <div class="form-group">
                             <label for="name_owner">Name :</label><br>
                             <input type="text" name="name_owner" class="form-control" placeholder="Họ và tên chủ trọ">
@@ -62,7 +74,7 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
                 <br>
                 <hr><br>
-                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>
         </div>
     </div>

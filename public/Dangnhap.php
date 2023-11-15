@@ -70,7 +70,7 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
                 <br>
                 <hr><br>
-                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>
         </div>
 </body>

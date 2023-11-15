@@ -5,7 +5,7 @@ session_start();
 use website\src\Post;
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 $sql = "SELECT * FROM room";
@@ -90,7 +90,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </div><br>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Đăng bài</button>
-                            <a class="btn btn-primary" href="dsbaidang.php">Close</a>
+                            <a class="btn btn-primary" href="dsPost.php">Close</a>
                         </div>
                     </form>
                 </div>

@@ -1,28 +1,23 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
+
 use website\src\Post;
 use website\src\Pagination;
+
 session_start();
 
+$post = new Post($PDO);
+
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 
-if ($_SESSION['role'] === 'Owner') {
-    $ownerId = $_SESSION['id_owner'];
-    $sql = "SELECT p.id_post, p.title, p.content, p.image, r.price_room, r.area_room, p.created_at
-            FROM post p
-            JOIN room r ON p.id_room = r.id_room
-            WHERE r.id_owner = :ownerId
-            ORDER BY p.created_at DESC";
-    $statement = $PDO->prepare($sql);
-    $statement->execute([':ownerId' => $ownerId]);
-    $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
-}else {
-    // Nếu là admin, hiển thị tất cả bài đăng
-    $post = new Post($PDO);
-    $posts = $post->getAllPost();
+if ($_SESSION['role'] === 'Admin') {
+    $posts = $post->getAllPosts();
+} elseif ($_SESSION['role'] === 'Owner') {
+    $id_owner = $_SESSION['id_owner'];
+    $posts = $post->getPostsByOwnerId($id_owner);
 }
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -45,7 +40,8 @@ require_once __DIR__ . '/../partials/header.php';
                 <div>
                     <h2>Danh sách bài đăng</h2>
                     <hr>
-                    <a href="/addPost.php" class="btn btn-primary btn-lg" role="button">Thêm</a><hr>
+                    <a href="/addPost.php" class="btn btn-primary btn-lg" role="button">Thêm</a>
+                    <hr>
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -73,22 +69,22 @@ require_once __DIR__ . '/../partials/header.php';
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
-                    </table>
+                    </table><br>
+                    <hr>
                     <div>
-                                <?php
-                                // Sử dụng lớp Pagination
-                                $totalItems = 10;
-                                $itemsPerPage = 3;
-                                $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-                                $baseUrl = 'dsPost.php';
-                                $queryParameters = array('category' => 'news');
+                        <?php
+                        // Sử dụng lớp Pagination
+                        $totalItems = 10;
+                        $itemsPerPage = 3;
+                        $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+                        $baseUrl = 'dsPost.php';
+                        $queryParameters = array('category' => 'news');
 
-                                $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage, $baseUrl, $queryParameters);
-                                echo $pagination->generatePaginationHtml();
-                                ?>
-                            </div>
+                        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage, $baseUrl, $queryParameters);
+                        echo $pagination->generatePaginationHtml();
+                        ?>
+                    </div>
                 </div>
-                <br>
                 <hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>

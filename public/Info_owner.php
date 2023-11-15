@@ -4,7 +4,10 @@ require_once __DIR__ . '/../bootstrap.php';
 use website\src\Owner;
 
 session_start();
-
+if (!isset($_SESSION['role']) || ( $_SESSION['role'] !== 'Owner')) {
+    header('Location: Dangnhap.php');
+    exit();
+}
 $owner = new Owner($PDO);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,14 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $phone = $_POST['phone_owner'];
     $email = $_POST['email_owner'];
     $address = $_POST['address_owner'];
+    $id_name = $_SESSION['id_name'];
 
-    if ($owner->addOwner($name, $phone, $email, $address)) {
+    if ($owner->addOwner($name, $phone, $email, $address, $id_name)) {
         $success = 'Thêm chủ nhà thành công!';
     } else {
-        $error = 'Lỗi khi thêm chủ nhà!';
+        $error = 'Lỗi khi thêm chủ nhà! Thông tin đã tồn tại.';
     }
 }
-
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
@@ -35,28 +38,34 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
-                    <form method="post">
-                        <h2>Nhập thông tin chủ trọ</h2><hr>
+                    <?php if (isset($success)) { ?>
+                        <div class="alert alert-success"><?= $success ?></div>
+                    <?php } ?>
+                    <?php if (isset($error)) { ?>
+                        <div class="alert alert-danger"><?= $error ?></div>
+                    <?php } ?>
+                    <form action="" method="post" class="register-form">
+                        <h2>Nhập thông tin chủ trọ</h2>
+                        <hr>
                         <div class="form-group">
-                            <label for="name_owner">Name :</label><br>
-                            <input type="text" name="name_owner" class="form-control" placeholder="Họ và tên chủ trọ">
+                            <label for="name_owner">Name: </label>
+                            <input type="text" name="name_owner" placeholder="Họ và tên chủ trọ" class="form-control" required>
                         </div><br>
                         <div class="form-group">
-                        <label for="phone_owner">Phone: </label><br>
-                            <input type="mumber" name="phone_owner"  class="form-control" placeholder="Số điện thoại chủ trọ">
+                            <label for="phone_owner">Phone: </label>
+                            <input type="mumber" name="phone_owner" placeholder="Số điện thoại chủ trọ" class="form-control" required>
                         </div><br>
                         <div class="form-group">
-                        <label for="email_owner">E-mail: </label><br>
-                            <input type="text" name="email_owner"  class="form-control" placeholder="Email chủ trọ">
+                            <label for="email_owner">E-mail: </label>
+                            <input type="text" name="email_owner" placeholder="Email chủ trọ" class="form-control" required>
                         </div><br>
                         <div class="form-group">
-                        <label for="address_owner">Address: </label><br>
-                            <input type="text" name="address_owner"  class="form-control" placeholder="Địa chỉ chủ trọ">
+                            <label for="address_owner">Address: </label>
+                            <input type="text" name="address_owner" placeholder="Địa chỉ chủ trọ" class="form-control" required>
                         </div><br>
-                        <button type="submit" class="btn btn-primary"  class="form-control" name="register">Thêm</button>
+                        <a href="/Dangnhap.php" class="btn btn-primary btn-lg" role="button">Thêm</a>
                     </form>
                 </div>
-                <br><hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
             </div>
         </div>

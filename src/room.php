@@ -80,4 +80,14 @@ class Room
         $statement->execute([':id_room' => $id_room]);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getRoomsByOwnerId($id_owner)
+    {
+        $sql = "SELECT * FROM room WHERE id_owner = :id_owner";
+        $statement = $this->db->prepare($sql);
+        $statement->bindParam(':id_owner', $id_owner, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

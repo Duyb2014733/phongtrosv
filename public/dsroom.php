@@ -6,12 +6,11 @@ use website\src\Pagination;
 use website\src\Room;
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 
 $room = new Room($PDO);
-
 // Xử lý khi nhấn nút xóa phòng
 if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id_room'])) {
     $id_room = $_GET['id_room'];
@@ -22,11 +21,12 @@ if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id_roo
     }
 }
 
-// Lấy danh sách phòng từ cơ sở dữ liệu
-$sql = "SELECT * FROM room";
-$statement = $PDO->prepare($sql);
-$statement->execute();
-$rooms = $statement->fetchAll();
+if ($_SESSION['role'] === 'Admin') {
+    $rooms = $room->getAllRooms();
+} elseif ($_SESSION['role'] === 'Owner') {
+    $id_owner = $_SESSION['id_owner'];
+    $rooms = $room->getRoomsByOwnerId($id_owner);
+}
 
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -61,7 +61,7 @@ require_once __DIR__ . '/../partials/header.php';
                                 <th>ID</th>
                                 <th>Tên phòng</th>
                                 <th>Giá phòng</th>
-                                <th>Diện tích</th>
+                                <th>Khu vực</th>
                                 <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
@@ -75,14 +75,20 @@ require_once __DIR__ . '/../partials/header.php';
                                     <td><?= $room['area_room'] ?></td>
                                     <td><?= $room['status_room'] ?></td>
                                     <td>
-                                        <a href="/addRental.php" class="btn btn-info" role="button">Cho thuê</a>
-                                        <a href="/editRoom.php?id_room=<?php echo $room['id_room']; ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
-                                        <a href="/deleteRoom.php?id_room=<?php echo $room['id_room']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
+                                        <?php if ($room['status_room'] == 'available') : ?>
+                                            <a href="/addRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Cho thuê</a>
+                                        <?php endif; ?>
+                                        <?php if (($room['status_room'] == 'occupied') || ($room['status_room'] == 'reserved')) : ?>
+                                            <a href="/addRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Cho thuê</a>
+                                        <?php endif; ?>
+                                        <a href="/editRoom.php?id_room=<?= $room['id_room']; ?> && id_owner=<?= $id_owner ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
+                                        <a href="/deleteRoom.php?id_room=<?= $room['id_room']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
-                    </table>
+                    </table><br>
+                    <hr>
                     <div>
                         <?php
                         // Sử dụng lớp Pagination
@@ -97,7 +103,6 @@ require_once __DIR__ . '/../partials/header.php';
                         ?>
                     </div>
                 </div>
-                <br>
                 <hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>

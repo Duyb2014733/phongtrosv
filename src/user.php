@@ -124,6 +124,7 @@ class User
         }
     }
 
+
     public function getOwnerIdByIdName($username)
     {
         $id_name = $this->getUserIdName($username);
@@ -146,7 +147,6 @@ class User
         $sql = "SELECT * FROM user";
         $statement = $this->db->prepare($sql);
         $statement->execute();
-
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 

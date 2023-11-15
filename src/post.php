@@ -161,16 +161,21 @@ class Post
         return $result;
     }
 
-    public function getAllPost()
+    public function getAllPosts()
     {
-        $sql = "SELECT p.id_post, p.title, p.content, p.image, r.price_room, r.area_room, p.created_at
-                FROM post p
-                JOIN room r ON p.id_room = r.id_room
-                ORDER BY p.created_at DESC";
-
+        $sql = "SELECT * FROM post";
         $statement = $this->db->prepare($sql);
         $statement->execute();
-
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getPostsByOwnerId($id_owner)
+    {
+        $sql = "SELECT * FROM post WHERE id_owner = :id_owner";
+        $statement = $this->db->prepare($sql);
+        $statement->bindParam(':id_owner', $id_owner, \PDO::PARAM_INT);
+        $statement->execute();
+
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

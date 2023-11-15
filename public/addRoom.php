@@ -6,7 +6,7 @@ use website\src\Room;
 session_start();
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 

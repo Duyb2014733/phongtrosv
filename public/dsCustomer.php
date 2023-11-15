@@ -66,7 +66,7 @@ require_once __DIR__ . '/../partials/header.php';
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
-                    </table>
+                    </table><br><hr>
                     <div>
                         <?php
                         // Sử dụng lớp Pagination
@@ -81,7 +81,6 @@ require_once __DIR__ . '/../partials/header.php';
                         ?>
                     </div>
                 </div>
-                <br>
                 <hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>

@@ -2,24 +2,24 @@
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
-    header('Location: login.php');
+    header('Location: Dangnhap.php');
     exit();
 }
 
 use website\src\Customer;
 use website\src\Owner;
-use website\src\Room;
 use website\src\Rental;
+use website\src\Room;
 
+$id_room = $_GET['id_room'];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
     $R_deposit = $_POST['R_deposit'];
     $id_customer = $_POST['id_customer'];
     $id_owner = $_POST['id_owner'];
-    $id_room = $_POST['id_room'];
 
-    // Thực hiện kiểm tra các giá trị và xử lý bên trong Rental class.
     $rental = new Rental($PDO);
     if ($rental->addRental($start_date, $end_date, $R_deposit, $id_customer, $id_owner, $id_room)) {
         $success = 'Thêm Rental thành công!';
@@ -35,7 +35,7 @@ $owner = new Owner($PDO);
 $owners = $owner->getAllOwners();
 
 $room = new Room($PDO);
-$rooms = $room->getAllRooms();
+$rooms = $room->getRoomById($id_room);
 
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -95,13 +95,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </select>
                         <br>
                         <label for="id_room">Phòng:</label>
-                        <select name="id_room" class="form-control">
-                            <?php foreach ($rooms as $room) { ?>
-                                <option value="<?php echo $room['id_room']; ?>">
-                                    <?php echo $room['name_room']; ?>
-                                </option>
-                            <?php } ?>
-                        </select>
+                        <input type="text" class="form-control" name="id_room" value="<?= $rooms['name_room'] ?>" required>
                         <br>
                         <button type="submit" class="btn btn-primary">Thêm Rental</button>
                         <a class="btn btn-primary" href="dsRoom.php">Thoát</a>

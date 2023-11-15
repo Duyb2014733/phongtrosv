@@ -33,28 +33,45 @@ class Owner
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addOwner($name, $phone, $email, $address)
-    {
-        if (empty($name) || empty($phone) || empty($email) || empty($address)) {
-            return false;
-        }
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
-        }
-        if (!preg_match('/^[0-9]{10,11}$/', $phone)) {
-            return false;
-        }
-        $sql = "INSERT INTO owner (name_owner, phone_owner, email_owner, address_owner) 
-         VALUES (:name, :phone, :email, :address)";
+    public function ownerExists($email, $phone) {
+        $sql = "SELECT COUNT(*) FROM owner WHERE email_owner = :email OR phone_owner = :phone";
         $statement = $this->db->prepare($sql);
-        return $statement->execute([
-            ':name' => $name,
-            ':phone' => $phone,
-            ':email' => $email,
-            ':address' => $address
-        ]);
+        $statement->execute([':email' => $email, ':phone' => $phone]);
+
+        $count = $statement->fetchColumn();
+
+        return ($count > 0);
     }
 
+    public function addOwner($name, $phone, $email, $address, $id_name)
+    {
+        $existingOwnerSql = "SELECT COUNT(*) FROM owner WHERE id_name = :id_name";
+        $existingOwnerStatement = $this->db->prepare($existingOwnerSql);
+        $existingOwnerStatement->execute([':id_name' => $id_name]);
+        $existingOwnerCount = $existingOwnerStatement->fetchColumn();
+
+        if ($existingOwnerCount > 0) 
+        {
+            return false;
+        }
+
+        if ($this->ownerExists($name, $phone)) {
+            return false;
+        }
+
+        $sql = "INSERT INTO owner(name_owner, phone_owner, email_owner, address_owner, id_name)
+                  VALUES(:name_owner, :phone_owner, :email_owner, :address_owner, :id_name)";
+
+        $statement = $this->db->prepare($sql);
+
+        return $statement->execute([
+            ':name_owner' => $name,
+            ':phone_owner' => $phone,
+            ':email_owner' => $email,
+            ':address_owner' => $address,
+            ':id_name' => $id_name
+        ]);
+    }
     public function deleteOwner($id_owner)
     {
         $sql = "DELETE FROM owner WHERE id_owner = :id_owner";
