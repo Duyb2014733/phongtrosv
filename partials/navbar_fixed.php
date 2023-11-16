@@ -54,12 +54,6 @@
                         <span>Phòng</span>
                     </a>
                 </li>
-                <li>
-                    <a href="dsCustomer.php" class="btn" type="button">
-                        <i class='bx bx-customize'></i>
-                        <span>Khách hàng</span>
-                    </a>
-                </li>
             <?php endif; ?>
             <?php if (!isset($_SESSION['role'])) : ?>
                 <li>

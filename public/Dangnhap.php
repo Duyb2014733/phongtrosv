@@ -44,25 +44,29 @@ require_once __DIR__ . '/../partials/header.php';
 <body>
     <div class="container-fluid">
         <div class="row">
-            <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
+            <div class="col-sm-2">
+                <?php require_once __DIR__ . "/../partials/navbar_fixed.php" ?>
+            </div>
             <div class="col-sm-10 pt-4 px-3 main">
-                <div class="">
-                    <form action="" method="post" class="register-form ">
-                        <h1>Đăng nhập</h1><hr>
-                        <label for="username">Tên đăng nhập :</label><br>
-                        <input type="text" class="form-control mr-sm-2" name="username" placeholder="Tên đăng nhập" required>
-                        <br>
-                        <label for="password">Mật khẩu :</label><br>
-                        <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
-                        <br>
-                        <div class="from-group text-center " style="color: #B22222;">
-                            <?php if (!empty($error)) { ?>
-                                <span><?= $error ?></span>
-                            <?php } ?>
-                        </div> <br>
-
-                        <input type="submit" class="btn btn-primary" name="login" value="Đăng nhập">
-                        <br>
+                <div class="container">
+                    <form method="post" class="">
+                        <h1>Đăng nhập</h1>
+                        <hr>
+                        <?php if (isset($success)) { ?>
+                            <div class="alert alert-success"><?= $success ?></div>
+                        <?php } ?>
+                        <?php if (isset($error)) { ?>
+                            <div class="alert alert-danger"><?= $error ?></div>
+                        <?php } ?>
+                        <div class="mb-3 mt-3">
+                            <label for="username">Tên đăng nhập :</label>
+                            <input type="text" class="form-control" name="username" placeholder="Tên đăng nhập" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Mật khẩu :</label>
+                            <input type="password" class="form-control" name="password" placeholder="Mật khẩu" required>
+                        </div>
+                        <input type="submit" class="btn btn-primary " name="login" value="Đăng nhập"><br>
                         <div class="from-group" style="text-align: right;">
                             <span class="psw">Quên <a href="#">mật khẩu?</a></span>
                         </div>

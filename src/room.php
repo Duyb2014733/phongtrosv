@@ -13,15 +13,17 @@ class Room
         $this->db = $pdo;
     }
 
-    public function addRoom($name_room, $price_room, $area_room, $security_room, $description_room, $status_room, $id_owner)
+    public function addRoom($name_room, $price_room, $elec_room, $water_room, $area_room, $security_room, $description_room, $status_room, $id_owner)
     {
-        $sql = "INSERT INTO room (name_room, price_room, area_room, security_room, description_room, status_room, id_owner)
-                VALUES (:name_room, :price_room, :area_room, :security_room, :description_room, :status_room, :id_owner)";
+        $sql = "INSERT INTO room (name_room, price_room, elec_room, water_room, area_room, security_room, description_room, status_room, id_owner)
+                VALUES (:name_room, :price_room, :elec_room, :water_room, :area_room, :security_room, :description_room, :status_room, :id_owner)";
 
         $statement = $this->db->prepare($sql);
         return $statement->execute([
             ':name_room' => $name_room,
             ':price_room' => $price_room,
+            ':elec_room' => $elec_room,
+            ':water_room'=> $water_room,
             ':area_room' => $area_room,
             ':security_room' => $security_room,
             ':description_room' => $description_room,
@@ -30,10 +32,10 @@ class Room
         ]);
     }
 
-    public function editRoom($id_room, $name_room, $price_room, $area_room, $security_room, $description_room, $status_room, $id_owner)
+    public function editRoom($id_room, $name_room, $price_room, $elec_room, $water_room, $area_room, $security_room, $description_room, $status_room, $id_owner)
     {
         $sql = "UPDATE room 
-                SET name_room = :name_room, price_room = :price_room, area_room = :area_room, security_room = :security_room, 
+                SET name_room = :name_room, price_room = :price_room, elec_room = :elec_room, water_room = :water_room, area_room = :area_room, security_room = :security_room, 
                     description_room = :description_room, status_room = :status_room, id_owner = :id_owner 
                 WHERE id_room = :id_room";
 
@@ -42,6 +44,8 @@ class Room
             ':id_room' => $id_room,
             ':name_room' => $name_room,
             ':price_room' => $price_room,
+            ':elec_room' => $elec_room,
+            ':water_room'=> $water_room,
             ':area_room' => $area_room,
             ':security_room' => $security_room,
             ':description_room' => $description_room,
@@ -89,5 +93,13 @@ class Room
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function updateRoomStatusToReserved($id_room)
+    {
+        $sql = "UPDATE room SET status_room = 'Đã thuê' WHERE id_room = :id_room";
+        $statement = $this->db->prepare($sql);
+        $statement->bindParam(':id_room', $id_room, \PDO::PARAM_INT);
+
+        return $statement->execute();
     }
 }

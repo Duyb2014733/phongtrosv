@@ -50,37 +50,39 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <form method="post">
-                        <h1>Đăng ký</h1><hr>
-                        <label for="username">Tên đăng ký :</label><br>
-                        <input type="text" class="form-control mr-sm-2" name="username" placeholder="Tên đăng ký" required>
-                        <br>
-                        <label for="password">Mật khẩu :</label><br>
-                        <input type="password" class="form-control mr-sm-2" name="password" placeholder="Mật khẩu" required>
-                        <br>
-                        <label for="role">Vai trò :</label>
-                        <select name="role">
-                            <option value="Owner">Chủ trọ</option>
-                        </select>
-                        <br>
-                        <div class="from-group text-center " style="color: #B22222;">
-                            <?php if (!empty($error)) { ?>
-                                <span><?= $error ?></span>
-                            <?php } ?>
-                        </div> <br><br>
+                        <h1>Đăng ký</h1>
+                        <hr>
+                        <?php if (isset($success)) { ?>
+                            <div class="alert alert-success"><?= $success ?></div>
+                        <?php } ?>
+                        <?php if (isset($error)) { ?>
+                            <div class="alert alert-danger"><?= $error ?></div>
+                        <?php } ?>
+                        <div class="mb-3 mt-3">
+                            <label for="username">Tên đăng ký :</label>
+                            <input type="text" id="username" class="form-control" name="username" placeholder="Tên đăng ký" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password">Mật khẩu :</label>
+                            <input type="password" id="password" class="form-control" name="password" placeholder="Mật khẩu" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="role">Vai trò :</label>
+                            <select name="role" id="role">
+                                <option value="Owner">Chủ trọ</option>
+                                <option value="Admin">Admin</option>
+                            </select>
+                        </div>
                         <input type="submit" class="btn btn-primary" name="register" value="Đăng ký">
                     </form>
                 </div>
                 <br>
                 <hr><br>
-                <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+                <?php require_once __DIR__ . '/../partials/footer.php'; ?><br>
             </div>
         </div>
 
     </div>
-
-    </div>
-
 </body>
-
 
 </html>

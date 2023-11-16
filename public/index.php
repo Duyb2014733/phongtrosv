@@ -4,7 +4,7 @@ require_once __DIR__ . '/../bootstrap.php';
 use website\src\Pagination;
 
 session_start();
-$sql = "SELECT p.title, p.content, p.image, r.id_room, r.price_room, r.area_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
+$sql = "SELECT p.title, p.content, p.image, r.id_room, r.price_room, r.area_room, r.status_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
         FROM post p
         JOIN room r ON p.id_room = r.id_room
         JOIN owner o ON r.id_owner = o.id_owner
@@ -62,20 +62,25 @@ require_once __DIR__ . '/../partials/header.php';
                             <div class="row card_index">
                                 <?php
                                 foreach ($posts as $post) {
+                                    if ($post['status_room'] != 'Đã thuê') {
                                     echo '<div class="col-sm-4">';
                                     echo '<div class="card mb-3">';
-                                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image"><hr>';
+                                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image">
+                                            <hr>';
                                     echo '<div class="card-body d-flex flex-column">';
-                                    echo '<h2 class="card-title">' . $post['title'] . '</h2><hr>';
+                                    echo '<h2 class="card-title">' . $post['title'] . '</h2>
+                                                <hr>';
                                     echo '<p class="card-text">' . $post['content'] . '</p>';
                                     echo '<p class="card-text">Giá phòng: ' . $post['price_room'] . 'đ</p>';
                                     echo '<p class="card-text">Khu vực: ' . $post['area_room'] . '</p>';
                                     echo '<a href="room_detail.php?id_room=' . $post['id_room'] . '" class="card-link">Chi tiết</a>';
+                                    echo '
+                                            </div>';
+                                    echo '
+                                        </div>';
                                     echo '</div>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                }
-                                ?>
+                                    }
+                                } ?>
                             </div><br>
                             <hr>
                             <div>

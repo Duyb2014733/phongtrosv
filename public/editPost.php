@@ -78,8 +78,8 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="form-group">
                             <label for="status_post">Trạng thái:</label>
                             <select class="form-control" name="status_post">
-                                <option value="draft">Bản nháp</option>
-                                <option value="published">Công khai</option>
+                                <option value="Bản nháp">Bản nháp</option>
+                                <option value="Công khai">Công khai</option>
                             </select>
                         </div><br>
                         <div class="form-group">

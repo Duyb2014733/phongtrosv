@@ -1,28 +1,36 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
-
+use website\src\Room;
 use website\src\Post;
+use website\src\Owner;
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
     header('Location: Dangnhap.php');
     exit();
 }
-$sql = "SELECT * FROM room";
-$statement = $PDO->prepare($sql);
-$statement->execute();
-$rooms = $statement->fetchAll();
+
+$room = new Room($PDO);
+$rooms = $room->getAllRooms();
+$owner = new Owner($PDO);
+$owners = $owner->getAllOwners();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $post = new Post($PDO);
     $title = $_POST['title'];
     $content = $_POST['content'];
     $status = $_POST['status_post'];
-    $id_owner = $_SESSION['id_owner'];
     $id_room = $_POST['id_room'];
     $image = $_FILES['image_post'];
 
-    if ($post->addPost($title, $content, $image, $status, $id_owner, $id_room)) {
+    if ($_SESSION['role'] === 'Admin') {
+        $id_owner = $owner->getIdOwner($_POST['name_owner']);
+        $post->addPost($title, $content, $image, $status, $id_owner, $id_room);
+    } elseif ($_SESSION['role'] === 'Owner') {
+        $id_owner = $_SESSION['id_owner'];
+        $post->addPost($title, $content, $image, $status, $id_owner, $id_room);
+    }
+    if ($post) {
         $success = 'Đăng bài thành công!';
     } else {
         $errors = $post->getErrors();
@@ -46,19 +54,25 @@ require_once __DIR__ . '/../partials/header.php';
                 <div>
                     <h2>Đăng bài viết</h2>
                     <hr>
-                    <?php if (isset($errors) && !empty($errors)) { ?>
-                        <div class="alert alert-danger">
-                            <ul>
-                                <?php foreach ($errors as $field => $error) { ?>
-                                    <li><?= $error ?></li>
-                                <?php } ?>
-                            </ul>
-                        </div>
-                    <?php } ?>
                     <?php if (isset($success)) { ?>
                         <div class="alert alert-success"><?= $success ?></div>
                     <?php } ?>
+                    <?php if (isset($error)) { ?>
+                        <div class="alert alert-danger"><?= $error ?></div>
+                    <?php } ?>
                     <form method="post" enctype="multipart/form-data">
+                    <?php if ($_SESSION['role'] === 'Admin') : ?>
+                            <div class="form-group">
+                                <label for="name_owner">Tên chủ trọ : </label><br>
+                                <select name="name_owner" class="form-control">
+                                    <?php foreach ($owners as $owner) { ?>
+                                        <option value="<?= $owner['name_owner'] ?>">
+                                            <?= $owner['name_owner'] ?>
+                                        </option>
+                                    <?php } ?>
+                                </select>
+                            </div><br>
+                        <?php endif; ?>
                         <div class="form-group">
                             <label for="title">Tiêu đề:</label>
                             <input type="text" class="form-control" name="title" placeholder="Tiêu đề bài viết">
@@ -84,8 +98,8 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="form-group">
                             <label for="status_post">Trạng thái:</label>
                             <select class="form-control" name="status_post">
-                                <option value="draft">Bản nháp</option>
-                                <option value="published">Công khai</option>
+                                <option value="Bản nháp">Bản nháp</option>
+                                <option value="Công khai">Công khai</option>
                             </select>
                         </div><br>
                         <div class="form-group">

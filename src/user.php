@@ -175,4 +175,15 @@ class User
             return false;
         }
     }
+
+    public function getIdName($username)
+    {
+        $sql = "SELECT id_name FROM user WHERE username = :username";
+        $statement = $this->db->prepare($sql);
+        $statement->execute([':username' => $username]);
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['id_name'] : null;
+    }
 }

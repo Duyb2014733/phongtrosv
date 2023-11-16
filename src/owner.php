@@ -16,9 +16,15 @@ class Owner
     {
         $this->db = $pdo;
     }
-    public function getIdOwner(): ?int
+    public function getIdOwner($name_owner)
     {
-        return $this->id_owner;
+        $sql = "SELECT id_owner FROM owner WHERE name_owner = :name_owner";
+        $statement = $this->db->prepare($sql);
+        $statement->execute([':name_owner' => $name_owner]);
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['id_owner'] : null;
     }
     public function setIdOwner(?int $id_owner): void
     {

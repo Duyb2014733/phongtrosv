@@ -4,6 +4,7 @@ session_start();
 
 use website\src\Pagination;
 use website\src\Room;
+use website\src\Rental;
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
     header('Location: Dangnhap.php');
@@ -26,6 +27,12 @@ if ($_SESSION['role'] === 'Admin') {
 } elseif ($_SESSION['role'] === 'Owner') {
     $id_owner = $_SESSION['id_owner'];
     $rooms = $room->getRoomsByOwnerId($id_owner);
+}
+
+if (isset($_GET['id_room'])) {
+    $id_room = $_GET['id_room'];
+    $rental = new Rental($PDO);
+    $rentalDetail = $rental->getRentalByIdRoom($id_room);
 }
 
 require_once __DIR__ . '/../partials/header.php';
@@ -75,13 +82,13 @@ require_once __DIR__ . '/../partials/header.php';
                                     <td><?= $room['area_room'] ?></td>
                                     <td><?= $room['status_room'] ?></td>
                                     <td>
-                                        <?php if ($room['status_room'] == 'available') : ?>
+                                        <?php if ($room['status_room'] == 'Có sẵn') : ?>
                                             <a href="/addRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Cho thuê</a>
                                         <?php endif; ?>
-                                        <?php if (($room['status_room'] == 'occupied') || ($room['status_room'] == 'reserved')) : ?>
-                                            <a href="/addRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Cho thuê</a>
+                                        <?php if ($room['status_room'] == 'Đã thuê') : ?>
+                                            <a href="/detailRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Chi tiết thuê</a>
                                         <?php endif; ?>
-                                        <a href="/editRoom.php?id_room=<?= $room['id_room']; ?> && id_owner=<?= $id_owner ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
+                                        <a href="/editRoom.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
                                         <a href="/deleteRoom.php?id_room=<?= $room['id_room']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
                                     </td>
                                 </tr>

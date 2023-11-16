@@ -12,7 +12,6 @@ if (isset($_GET['id_room'])) {
     if (!$rooms) {
         $errors = 'Không có thông tin của phòng này!';
     }
-} else {
 }
 
 require_once __DIR__ . '/../partials/header.php';

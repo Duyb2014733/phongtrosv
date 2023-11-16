@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../bootstrap.php';
 
 use website\src\Room;
+
 session_start();
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
     header('Location: login.php');
@@ -14,13 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id_room = $_GET['id_room'];
     $name = $_POST['name'];
     $price = $_POST['price'];
+    $elec = $_POST['elec'];
+    $water = $_POST['water'];
     $area = $_POST['area'];
     $security = $_POST['security'];
     $description = $_POST['description'];
     $status = $_POST['status'];
     $id_owner = $_SESSION['id_owner'];
 
-    $roomId = $room->editRoom($id_room, $name, $price, $area, $security, $description, $status, $id_owner);
+    $roomId = $room->editRoom($id_room, $name, $price, $elec, $water, $area, $security, $description, $status, $id_owner);
 
     if ($roomId) {
         $success = 'Phòng cập nhật thành công!';
@@ -31,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $id_room = $_GET['id_room'];
 $room = new Room($PDO);
-$roomDatas = $room->getRoomById($id_room);
+$roomData = $room->getRoomById($id_room);
 
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -58,36 +61,49 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="alert alert-danger"><?= $error ?></div>
                     <?php } ?>
                     <form method="post">
-                        <div class="form-group">
-                            <label for="name">Tên phòng:</label>
-                            <input type="text" name="name" class="form-control" value="<?= $roomDatas['name_room'] ?>" required>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="name">Tên phòng:</label>
+                                <input type="text" name="name" class="form-control" value="<?= $roomData['name_room'] ?>" required>
+                            </div><br>
+                            <div class="form-group col">
+                                <label for="price">Giá phòng:</label>
+                                <input type="text" name="price" class="form-control" value="<?= $roomData['price_room'] ?>" required>
+                            </div><br>
                         </div><br>
-                        <div class="form-group">
-                            <label for="price">Giá phòng:</label>
-                            <input type="text" name="price" class="form-control" value="<?= $roomDatas['price_room'] ?>" required>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="elec">Giá điện:</label>
+                                <input type="text" name="elec" class="form-control" value="<?= $roomData['elec_room'] ?>" required>
+                            </div><br>
+                            <div class="form-group col">
+                                <label for="water">Giá nước:</label>
+                                <input type="text" name="water" class="form-control" value="<?= $roomData['water_room'] ?>" required>
+                            </div><br>
                         </div><br>
-                        <div class="form-group">
-                            <label for="area">Khu vực:</label>
-                            <input type="text" name="area" class="form-control" value="<?= $roomDatas['area_room'] ?>" required>
-                        </div><br>
-                        <div class="form-group">
-                            <label for="security">Cấp độ an toàn:</label>
-                            <select name="security" class="form-control" required>
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                            </select>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="area">Khu vực:</label>
+                                <input type="text" name="area" class="form-control" value="<?= $roomData['area_room'] ?>" required>
+                            </div><br>
+                            <div class="form-group col">
+                                <label for="security">Cấp độ an toàn:</label>
+                                <select name="security" class="form-control" required>
+                                    <option value="Thấp">Thấp</option>
+                                    <option value="Trung bình">Trung bình</option>
+                                    <option value="Cao">Cao</option>
+                                </select>
+                            </div><br>
                         </div><br>
                         <div class="form-group">
                             <label for="description">Mô tả phòng:</label>
-                            <textarea name="description" class="form-control" value="<?= $roomData['description_room'] ?>" required></textarea>
+                            <textarea name="description" class="form-control" required><?= $roomData['description_room'] ?></textarea>
                         </div><br>
                         <div class="form-group">
                             <label for="status">Trạng thái phòng:</label>
                             <select name="status" class="form-control" required>
-                                <option value="available">Có sẵn</option>
-                                <option value="occupied">Đã thuê</option>
-                                <option value="reserved">Đã đặt trước</option>
+                                <option value="Có sẵn">Có sẵn</option>
+                                <option value="Đã thuê">Đã thuê</option>
                             </select>
                         </div><br>
                         <div class="form-group">
