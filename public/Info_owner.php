@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\Owner;
+use phongtrosv\src\Owner;
 
 session_start();
 if (!isset($_SESSION['role']) || ( $_SESSION['role'] !== 'Owner')) {

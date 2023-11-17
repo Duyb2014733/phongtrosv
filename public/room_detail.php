@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
 
-use website\src\Room;
+use phongtrosv\src\Room;
 
 if (isset($_GET['id_room'])) {
     $room = new Room($PDO);

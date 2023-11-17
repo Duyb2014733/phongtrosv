@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
-use website\src\Post;
+use phongtrosv\src\Post;
 session_start();
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
     header('Location: Dangnhap.php');

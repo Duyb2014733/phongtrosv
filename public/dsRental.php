@@ -1,10 +1,10 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\Rental;
-use website\src\Room;
-use website\src\Chiso;
-use website\src\Pagination;
+use phongtrosv\src\Rental;
+use phongtrosv\src\Room;
+use phongtrosv\src\Chiso;
+use phongtrosv\src\Pagination;
 
 session_start();
 

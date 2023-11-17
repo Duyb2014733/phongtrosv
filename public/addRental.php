@@ -6,9 +6,9 @@ if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['ro
     exit();
 }
 
-use website\src\Owner;
-use website\src\Rental;
-use website\src\Room;
+use phongtrosv\src\Owner;
+use phongtrosv\src\Rental;
+use phongtrosv\src\Room;
 
 $id_room = $_GET['id_room'];
 

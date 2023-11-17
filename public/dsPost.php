@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\Post;
-use website\src\Pagination;
+use phongtrosv\src\Post;
+use phongtrosv\src\Pagination;
 
 session_start();
 

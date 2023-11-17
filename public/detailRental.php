@@ -2,8 +2,8 @@
 require_once __DIR__ . '/../bootstrap.php';
 session_start();
 
-use website\src\Room;
-use website\src\Rental;
+use phongtrosv\src\Room;
+use phongtrosv\src\Rental;
 
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
     header('Location: Dangnhap.php');

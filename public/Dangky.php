@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\User;
+use phongtrosv\src\User;
 
 ob_start();
 session_start();

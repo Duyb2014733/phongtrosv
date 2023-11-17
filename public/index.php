@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\Pagination;
+use phongtrosv\src\Pagination;
 
 session_start();
 $sql = "SELECT p.title, p.content, p.image, r.id_room, r.price_room, r.area_room, r.status_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner

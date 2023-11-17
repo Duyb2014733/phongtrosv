@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\Post;
+use phongtrosv\src\Post;
 
 session_start();
 

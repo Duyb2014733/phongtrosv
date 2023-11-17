@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '/../bootstrap.php';
 
-use website\src\User;
-use website\src\Owner;
-use website\src\Post;
-use website\src\Room;
-use website\src\Rental;
-use website\src\Pagination;
+use phongtrosv\src\User;
+use phongtrosv\src\Owner;
+use phongtrosv\src\Post;
+use phongtrosv\src\Room;
+use phongtrosv\src\Rental;
+use phongtrosv\src\Pagination;
 session_start();
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Admin') {
