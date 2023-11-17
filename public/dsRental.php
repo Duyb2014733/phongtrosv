@@ -65,7 +65,7 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
-                    <h2>Thông tin khách hàng và chi phí</h2>
+                    <h2>Thông tin khách hàng và chi phí</h2><hr>
                     <table class="table  table-striped">
                         <thead>
                             <tr>
