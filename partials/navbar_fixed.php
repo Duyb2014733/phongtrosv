@@ -34,6 +34,12 @@
                         <span>Quản lý phòng</span>
                     </a>
                 </li>
+                <li>
+                    <a href="dsRental.php" class="btn" type="button">
+                        <i class='bx bxs-book-content'></i>
+                        <span>Quản lý thuê phòng</span>
+                    </a>
+                </li>
             <?php endif; ?>
             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'Owner') : ?>
                 <li>
@@ -52,6 +58,12 @@
                     <a href="dsRoom.php" class="btn" type="button">
                         <i class='bx bx-building'></i>
                         <span>Phòng</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="dsRental.php" class="btn" type="button">
+                        <i class='bx bxs-book-content'></i>
+                        <span>Thuê phòng</span>
                     </a>
                 </li>
             <?php endif; ?>

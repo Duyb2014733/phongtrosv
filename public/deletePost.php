@@ -2,8 +2,9 @@
 require_once __DIR__ . '/../bootstrap.php';
 use website\src\Post;
 session_start();
-if (!isset($_SESSION['id_owner'])) {
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['role'] !== 'Owner')) {
     header('Location: Dangnhap.php');
+    exit();
 }
 
 if (isset($_GET['id_post'])) {
