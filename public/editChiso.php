@@ -57,20 +57,24 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="form-group">
                             <label for="elec_Chiso">Chỉ số điện hiện tại:</label>
                             <input type="text" class="form-control" value="<?= $currentChiso['elec_Chiso']; ?>" readonly>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <label for="water_Chiso">Chỉ số nước hiện tại:</label>
                             <input type="text" class="form-control" value="<?= $currentChiso['water_Chiso']; ?>" readonly>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <label for="new_elec_Chiso">Chỉ số điện mới:</label>
                             <input type="text" class="form-control" name="new_elec_Chiso" required>
-                        </div>
+                        </div><br>
                         <div class="form-group">
                             <label for="new_water_Chiso">Chỉ số nước mới:</label>
                             <input type="text" class="form-control" name="new_water_Chiso" required>
+                        </div><br>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary" name="submit">Chỉnh sửa</button>
+                            <a class="btn btn-primary" href="addChiso.php?id_room=<?= $currentChiso['id_room']; ?>">Thoát</a>
                         </div>
-                        <button type="submit" class="btn btn-primary" name="submit">Chỉnh sửa</button>
+                        
                     </form>
                 </div>
                 <br>

@@ -84,7 +84,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </div><br>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Cập nhật bài đăng</button>
-                            <a class="btn btn-primary" href="dsbaidang.php">Close</a>
+                            <a class="btn btn-primary" href="dsPost.php">Close</a>
                         </div>
                     </form>
                 </div>

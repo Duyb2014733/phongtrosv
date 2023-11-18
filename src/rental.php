@@ -74,4 +74,59 @@ class Rental
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getRentalRoomAll()
+    {
+        $sql = "
+    SELECT
+        r.id_rental,
+        r.start_date,
+        r.end_date,
+        r.name_customer,
+        r.phone_customer,
+        r.email_customer,
+        r.address_customer,
+        ro.id_room,
+        ro.name_room,
+        ro.price_room,
+        ro.elec_room,
+        ro.water_room,
+        ro.area_room
+    FROM rental r
+    JOIN room ro ON r.id_room = ro.id_room
+";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    public function getRentalRoomById($id_owner)
+    {
+        $sql = "
+    SELECT
+        r.id_rental,
+        r.start_date,
+        r.end_date,
+        r.name_customer,
+        r.phone_customer,
+        r.email_customer,
+        r.address_customer,
+        ro.id_room,
+        ro.name_room,
+        ro.price_room,
+        ro.elec_room,
+        ro.water_room,
+        ro.area_room
+    FROM rental r
+    JOIN room ro ON r.id_room = ro.id_room
+    WHERE ro.id_owner = :id_owner
+    ";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute([
+            'id_owner' => $id_owner
+        ]);
+        return $statement->fetchAll();
+    }
 }

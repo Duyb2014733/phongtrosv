@@ -16,28 +16,12 @@ if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['ro
 $rental = new Rental($PDO);
 $room = new Room($PDO);
 $chiso = new Chiso($PDO);
-$sql = "
-    SELECT
-        r.id_rental,
-        r.start_date,
-        r.end_date,
-        r.name_customer,
-        r.phone_customer,
-        r.email_customer,
-        r.address_customer,
-        ro.id_room,
-        ro.name_room,
-        ro.price_room,
-        ro.elec_room,
-        ro.water_room,
-        ro.area_room
-    FROM rental r
-    JOIN room ro ON r.id_room = ro.id_room
-";
-
-$statement = $PDO->prepare($sql);
-$statement->execute();
-$rentalDetails = $statement->fetchAll();
+if ($_SESSION['role'] === 'Admin') {
+    $rentalDetails = $rental->getRentalRoomAll();
+} elseif ($_SESSION['role'] === 'Owner') {
+    $id_owner = $_SESSION['id_owner'];
+    $rentalDetails = $rental->getRentalRoomById($id_owner);
+}
 
 function calculateRentCost($startDate, $endDate, $roomPrice, $totalcost)
 {
@@ -81,7 +65,9 @@ require_once __DIR__ . '/../partials/header.php';
                         </thead>
                         <tbody>
                             <?php foreach ($rentalDetails as $rentalDetail) :
-                                $totalcost = $chiso->getLatestTotalCost($rentalDetail['id_room']); ?>
+                                $totalcost = $chiso->getLatestTotalCost($rentalDetail['id_room']); 
+                                $tinhtien = calculateRentCost($rentalDetail['start_date'], $rentalDetail['end_date'], $rentalDetail['price_room'], $totalcost);
+                                ?>
                                 <tr>
                                     <td><?= $rentalDetail['id_rental']; ?></td>
                                     <td><?= $rentalDetail['start_date']; ?></td>
@@ -90,7 +76,7 @@ require_once __DIR__ . '/../partials/header.php';
                                     <td><?= $rentalDetail['name_room']; ?></td>
                                     <td><?= $rentalDetail['price_room']; ?></td>
                                     <td>
-                                        <?= $tinhtien = calculateRentCost($rentalDetail['start_date'], $rentalDetail['end_date'], $rentalDetail['price_room'], $totalcost); ?>
+                                        <?= isset($tinhtien) ? $tinhtien : ''; ?>
                                     </td>
                                     <td>
                                         <a href="addChiso.php?id_room=<?= $rentalDetail['id_room']; ?>" class="btn btn-primary" role="button">Tính tiền</a>

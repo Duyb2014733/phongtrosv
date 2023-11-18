@@ -4,7 +4,7 @@ require_once __DIR__ . '/../bootstrap.php';
 use phongtrosv\src\Owner;
 
 session_start();
-if (!isset($_SESSION['role']) || ( $_SESSION['role'] !== 'Owner')) {
+if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Owner')) {
     header('Location: Dangnhap.php');
     exit();
 }
@@ -44,7 +44,7 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php if (isset($error)) { ?>
                         <div class="alert alert-danger"><?= $error ?></div>
                     <?php } ?>
-                    <form action="" method="post" class="register-form">
+                    <form method="post" class="register-form">
                         <h2>Nhập thông tin chủ trọ</h2>
                         <hr>
                         <div class="form-group">
@@ -63,9 +63,13 @@ require_once __DIR__ . '/../partials/header.php';
                             <label for="address_owner">Address: </label>
                             <input type="text" name="address_owner" placeholder="Địa chỉ chủ trọ" class="form-control" required>
                         </div><br>
-                        <a href="/Dangnhap.php" class="btn btn-primary btn-lg" role="button">Thêm</a>
+                        <div class="form-group">
+                            <a class="btn btn-primary" role="submit">Thêm</a>
+                            <a href="Dangnhap.php" class="btn btn-primary" role="button">Thoát</a>
+                        </div>
                     </form>
                 </div>
+                <hr><br>
                 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
             </div>
         </div>

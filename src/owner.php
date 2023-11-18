@@ -39,7 +39,8 @@ class Owner
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function ownerExists($email, $phone) {
+    public function ownerExists($email, $phone)
+    {
         $sql = "SELECT COUNT(*) FROM owner WHERE email_owner = :email OR phone_owner = :phone";
         $statement = $this->db->prepare($sql);
         $statement->execute([':email' => $email, ':phone' => $phone]);
@@ -56,8 +57,7 @@ class Owner
         $existingOwnerStatement->execute([':id_name' => $id_name]);
         $existingOwnerCount = $existingOwnerStatement->fetchColumn();
 
-        if ($existingOwnerCount > 0) 
-        {
+        if ($existingOwnerCount > 0) {
             return false;
         }
 
@@ -83,5 +83,16 @@ class Owner
         $sql = "DELETE FROM owner WHERE id_owner = :id_owner";
         $statement = $this->db->prepare($sql);
         return $statement->execute([':id_owner' => $id_owner]);
+    }
+    public function getOwnerByIdRoom($id_room)
+    {
+        $sql = "SELECT owner.* FROM owner
+            INNER JOIN room ON owner.id_owner = room.id_owner
+            WHERE room.id_room = :id_room";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute([':id_room' => $id_room]);
+
+        return $statement->fetch(PDO::FETCH_ASSOC);
     }
 }

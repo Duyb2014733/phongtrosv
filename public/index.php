@@ -65,19 +65,13 @@ require_once __DIR__ . '/../partials/header.php';
                                     if ($post['status_room'] != 'Đã thuê') {
                                     echo '<div class="col-sm-4">';
                                     echo '<div class="card mb-3">';
-                                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image">
-                                            <hr>';
+                                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image"><hr>';
                                     echo '<div class="card-body d-flex flex-column">';
-                                    echo '<h2 class="card-title">' . $post['title'] . '</h2>
-                                                <hr>';
-                                    echo '<p class="card-text">' . $post['content'] . '</p>';
-                                    echo '<p class="card-text">Giá phòng: ' . $post['price_room'] . 'đ</p>';
+                                    echo '<h2 class="card-title">' . $post['title'] . '</h2><hr>';     
                                     echo '<p class="card-text">Khu vực: ' . $post['area_room'] . '</p>';
                                     echo '<a href="room_detail.php?id_room=' . $post['id_room'] . '" class="card-link">Chi tiết</a>';
-                                    echo '
-                                            </div>';
-                                    echo '
-                                        </div>';
+                                    echo '</div>';
+                                    echo '</div>';
                                     echo '</div>';
                                     }
                                 } ?>
