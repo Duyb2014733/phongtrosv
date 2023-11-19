@@ -54,14 +54,14 @@ require_once __DIR__ . '/../partials/header.php';
                         <tbody>
                             <?php foreach ($posts as $post) : ?>
                                 <tr>
-                                    <td><?= $post['id_post']; ?></td>
-                                    <td><?= $post['title']; ?></td>
-                                    <td><?= $post['created_at']; ?></td>
+                                    <td><?= htmlspecialchars($post['id_post']); ?></td>
+                                    <td><?= htmlspecialchars($post['title']); ?></td>
+                                    <td><?= htmlspecialchars($post['created_at']); ?></td>
                                     <td>
-                                        <a href="/editPost.php?id_post=<?= $post['id_post']; ?>" class="btn btn-info" role="button" style="background-color: #FF7F50;">
+                                        <a href="/editPost.php?id_post=<?= htmlspecialchars($post['id_post']); ?>" class="btn btn-info" role="button" style="background-color: #FF7F50;">
                                             Edit
                                         </a>
-                                        <a onclick="return confirm('Bạn có muốn xóa bài đăng này không!')" href="/deletePost.php?id_post=<?= $post['id_post']; ?>" class="btn btn-danger" role="button" style="background-color: #B22222;">
+                                        <a onclick="return confirm('Bạn có muốn xóa bài đăng này không!')" href="/deletePost.php?id_post=<?= htmlspecialchars($post['id_post']); ?>" class="btn btn-danger" role="button" style="background-color: #B22222;">
                                             Delete
                                             <?php $_SESSION['id_post'] = $post['id_post']; ?>
                                         </a>

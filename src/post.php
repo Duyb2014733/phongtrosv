@@ -112,7 +112,7 @@ class Post
             ':id_room' => $id_room
         ]);
 
-        return true;// Không có lỗi, bài đăng được thêm thành công
+        return true; // Không có lỗi, bài đăng được thêm thành công
     }
 
     public function editPost($id_post, $title, $content, $image, $status)
@@ -177,5 +177,20 @@ class Post
         $statement->execute();
 
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getsearchareaPosts($search_area)
+    {
+        $sql = "SELECT p.title, p.content, p.image, r.id_room, r.price_room, r.area_room, r.status_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
+        FROM post p
+        JOIN room r ON p.id_room = r.id_room
+        JOIN owner o ON r.id_owner = o.id_owner
+        WHERE r.area_room = :search_area
+        ORDER BY p.created_at DESC";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute(['search_area' => $search_area]);
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

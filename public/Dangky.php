@@ -53,10 +53,10 @@ require_once __DIR__ . '/../partials/header.php';
                         <h1>Đăng ký</h1>
                         <hr>
                         <?php if (isset($success)) { ?>
-                            <div class="alert alert-success"><?= $success ?></div>
+                            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                         <?php } ?>
                         <?php if (isset($error)) { ?>
-                            <div class="alert alert-danger"><?= $error ?></div>
+                            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                         <?php } ?>
                         <div class="mb-3 mt-3">
                             <label for="username">Tên đăng ký :</label>

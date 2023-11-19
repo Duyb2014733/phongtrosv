@@ -55,10 +55,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <h2>Danh sách phòng</h2>
                     <hr>
                     <?php if (isset($success)) { ?>
-                        <div class="alert alert-success"><?= $success ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                     <?php } ?>
                     <?php if (isset($error)) { ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                     <?php } ?>
                     <table class="table table-striped">
                         <a href="/addRoom.php" class="btn btn-primary btn-lg" role="button">Thêm</a>
@@ -83,13 +83,13 @@ require_once __DIR__ . '/../partials/header.php';
                                     <td><?= $room['status_room'] ?></td>
                                     <td>
                                         <?php if ($room['status_room'] == 'Có sẵn') : ?>
-                                            <a href="/addRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Cho thuê</a>
+                                            <a href="/addRental.php?id_room=<?= htmlspecialchars($room['id_room']); ?>" class="btn btn-info" role="button">Cho thuê</a>
                                         <?php endif; ?>
                                         <?php if ($room['status_room'] == 'Đã thuê') : ?>
-                                            <a href="/detailRental.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" role="button">Chi tiết thuê</a>
+                                            <a href="/detailRental.php?id_room=<?= htmlspecialchars($room['id_room']); ?>" class="btn btn-info" role="button">Chi tiết thuê</a>
                                         <?php endif; ?>
-                                        <a href="/editRoom.php?id_room=<?= $room['id_room']; ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
-                                        <a href="/deleteRoom.php?id_room=<?= $room['id_room']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
+                                        <a href="/editRoom.php?id_room=<?= htmlspecialchars($room['id_room']); ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
+                                        <a href="/deleteRoom.php?id_room=<?= htmlspecialchars($room['id_room']); ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

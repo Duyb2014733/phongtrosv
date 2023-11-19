@@ -49,14 +49,14 @@ require_once __DIR__ . '/../partials/header.php';
                         <tbody>
                             <?php foreach ($owners as $owner) : ?>
                                 <tr>
-                                    <td><?php echo $owner['id_owner']; ?></td>
-                                    <td><?php echo $owner['name_owner']; ?></td>
-                                    <td><?php echo $owner['phone_owner']; ?></td>
-                                    <td><?php echo $owner['email_owner']; ?></td>
-                                    <td><?php echo $owner['address_owner']; ?></td>
+                                    <td><?php echo htmlspecialchars($owner['id_owner']); ?></td>
+                                    <td><?php echo htmlspecialchars($owner['name_owner']); ?></td>
+                                    <td><?php echo htmlspecialchars($owner['phone_owner']); ?></td>
+                                    <td><?php echo htmlspecialchars($owner['email_owner']); ?></td>
+                                    <td><?php echo htmlspecialchars($owner['address_owner']); ?></td>
                                     <td>
-                                        <a href="/editOwner.php?id_owner=<?php echo $owner['id_owner']; ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
-                                        <a href="/delete.php?id_owner=<?php echo $owner['id_owner']; ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
+                                        <a href="/editOwner.php?id_owner=<?php echo htmlspecialchars($owner['id_owner']); ?>" class="btn btn-info" style="background-color: #FF7F50;" role="button">Sửa</a>
+                                        <a href="/delete.php?id_owner=<?php echo htmlspecialchars($owner['id_owner']); ?>" class="btn btn-danger" role="button" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng này không?')">Xóa</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

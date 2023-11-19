@@ -62,14 +62,14 @@ require_once __DIR__ . '/../partials/header.php';
                     <?php } ?>
 
                     <form method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="id_post" value="<?= $id_post ?>" class="form-control" required>
+                        <input type="hidden" name="id_post" value="<?= htmlspecialchars($id_post) ?>" class="form-control" required>
                         <div class="form-group">
                             <label for="title">Tiêu đề:</label>
-                            <input type="text" name="title" value="<?= $postData['title'] ?>" class="form-control" required>
+                            <input type="text" name="title" value="<?= htmlspecialchars($postData['title']) ?>" class="form-control" required>
                         </div><br>
                         <div class="form-group">
                             <label for="content">Nội dung:</label>
-                            <textarea name="content" class="form-control" required><?= $postData['content'] ?></textarea>
+                            <textarea name="content" class="form-control" required><?= htmlspecialchars($postData['content']) ?></textarea>
                         </div><br>
                         <div class="form-group">
                             <label for="image_post">Hình ảnh:</label>

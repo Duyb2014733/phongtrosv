@@ -39,10 +39,10 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="col-sm-10 pt-4 px-3 main">
                 <div>
                     <?php if (isset($success)) { ?>
-                        <div class="alert alert-success"><?= $success ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                     <?php } ?>
                     <?php if (isset($error)) { ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                     <?php } ?>
                     <form method="post" class="register-form">
                         <h2>Nhập thông tin chủ trọ</h2>

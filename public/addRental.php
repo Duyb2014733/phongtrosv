@@ -62,10 +62,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <h2>Thêm Rental</h2>
                     <hr>
                     <?php if (isset($success)) { ?>
-                        <div class="alert alert-success"><?= $success ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                     <?php } ?>
                     <?php if (isset($error)) { ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                     <?php } ?>
                     <form method="post" class="form-group">
                         <div class="row">
@@ -103,8 +103,8 @@ require_once __DIR__ . '/../partials/header.php';
                                 <label for="id_owner">Chủ sở hữu:</label><br>
                                 <select name="id_owner" class="form-control">
                                     <?php foreach ($owners as $owner) { ?>
-                                        <option value="<?php echo $owner['id_owner']; ?>">
-                                            <?php echo $owner['name_owner']; ?>
+                                        <option value="<?php echo htmlspecialchars($owner['id_owner']); ?>">
+                                            <?php echo htmlspecialchars($owner['name_owner']); ?>
                                         </option>
                                     <?php } ?>
                                 </select>

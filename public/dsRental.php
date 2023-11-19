@@ -23,17 +23,6 @@ if ($_SESSION['role'] === 'Admin') {
     $rentalDetails = $rental->getRentalRoomById($id_owner);
 }
 
-function calculateRentCost($startDate, $endDate, $roomPrice, $totalcost)
-{
-    $startTimestamp = strtotime($startDate);
-    $endTimestamp = strtotime($endDate);
-
-    $months = ceil(($endTimestamp - $startTimestamp) / (60 * 60 * 24 * 30));
-
-    $rentCost = ($months * $roomPrice) +  $totalcost;
-
-    return $rentCost;
-}
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
@@ -66,7 +55,7 @@ require_once __DIR__ . '/../partials/header.php';
                         <tbody>
                             <?php foreach ($rentalDetails as $rentalDetail) :
                                 $totalcost = $chiso->getLatestTotalCost($rentalDetail['id_room']); 
-                                $tinhtien = calculateRentCost($rentalDetail['start_date'], $rentalDetail['end_date'], $rentalDetail['price_room'], $totalcost);
+                                $tinhtien = $rental -> calculateRentCost($rentalDetail['start_date'], $rentalDetail['end_date'], $rentalDetail['price_room'], $totalcost);
                                 ?>
                                 <tr>
                                     <td><?= $rentalDetail['id_rental']; ?></td>

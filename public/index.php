@@ -2,18 +2,20 @@
 require_once __DIR__ . '/../bootstrap.php';
 
 use phongtrosv\src\Pagination;
+use phongtrosv\src\Room;
+use phongtrosv\src\Post;
 
 session_start();
-$sql = "SELECT p.title, p.content, p.image, r.id_room, r.price_room, r.area_room, r.status_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
-        FROM post p
-        JOIN room r ON p.id_room = r.id_room
-        JOIN owner o ON r.id_owner = o.id_owner
-        ORDER BY p.created_at DESC";
 
-$statement = $PDO->prepare($sql);
-$statement->execute();
+$post = new Post($PDO);
 
-$posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+if (isset($_GET['search_area'])) {
+    $search_area = $_GET['search_area'];
+    $posts = $post->getsearchareaPosts($search_area);
+}
+
+$room = new Room($PDO);
+$areas = $room->getAllAreaRoms();
 
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -57,22 +59,36 @@ require_once __DIR__ . '/../partials/header.php';
                     <hr>
                     <div>
                         <h1 style="text-align: center;">Các Bài Đăng</h1>
+                        <hr>
+                        <div>
+                            <form method="get" action="index.php">
+                                <label for="search_area">Tìm Kiếm theo Khu Vực:</label>
+                                <select name="search_area" id="search_area">
+                                    <option value="">-- Chọn Khu Vực --</option>
+                                    <?php foreach ($areas as $area) : ?>
+                                        <option value="<?= htmlspecialchars($area) ?>"><?=  htmlspecialchars($area) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button type="submit">Tìm Kiếm</button>
+                            </form>
+                        </div>
+
                         <hr><br>
                         <div class="container-fluid">
                             <div class="row card_index">
                                 <?php
                                 foreach ($posts as $post) {
                                     if ($post['status_room'] != 'Đã thuê') {
-                                    echo '<div class="col-sm-4">';
-                                    echo '<div class="card mb-3">';
-                                    echo '<img src="' . $post['image'] . '" class="card-img-top" alt="Image"><hr>';
-                                    echo '<div class="card-body d-flex flex-column">';
-                                    echo '<h2 class="card-title">' . $post['title'] . '</h2><hr>';     
-                                    echo '<p class="card-text">Khu vực: ' . $post['area_room'] . '</p>';
-                                    echo '<a href="room_detail.php?id_room=' . $post['id_room'] . '" class="card-link">Chi tiết</a>';
-                                    echo '</div>';
-                                    echo '</div>';
-                                    echo '</div>';
+                                        echo '<div class="col-sm-4">';
+                                        echo '<div class="card mb-3">';
+                                        echo '<img src="' .  htmlspecialchars($post['image']) . '" class="card-img-top" alt="Image"><hr>';
+                                        echo '<div class="card-body d-flex flex-column">';
+                                        echo '<h2 class="card-title">' .  htmlspecialchars($post['title']) . '</h2><hr>';
+                                        echo '<p class="card-text">Khu vực: ' . htmlspecialchars($post['area_room']) . '</p>';
+                                        echo '<a href="room_detail.php?id_room=' . htmlspecialchars($post['id_room']) . '" class="card-link">Chi tiết</a>';
+                                        echo '</div>';
+                                        echo '</div>';
+                                        echo '</div>';
                                     }
                                 } ?>
                             </div><br>

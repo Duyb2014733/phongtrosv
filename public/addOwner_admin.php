@@ -46,17 +46,17 @@ require_once __DIR__ . '/../partials/header.php';
                         <h2>Nhập thông tin chủ trọ</h2>
                         <hr>
                         <?php if (isset($success)) { ?>
-                            <div class="alert alert-success"><?= $success ?></div>
+                            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                         <?php } ?>
                         <?php if (isset($error)) { ?>
-                            <div class="alert alert-danger"><?= $error ?></div>
+                            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                         <?php } ?>
                         <div class="form-group">
                             <label for="username">Tài khoản :</label><br>
                             <select name="username" class="form-control">
                                 <?php foreach ($users as $user) { ?>
-                                    <option value="<?= $user['username'] ?>">
-                                        <?= $user['username'] ?>
+                                    <option value="<?= htmlspecialchars($user['username']) ?>">
+                                        <?= htmlspecialchars($user['username']) ?>
                                     </option>
                                 <?php } ?>
                             </select>

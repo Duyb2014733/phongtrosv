@@ -56,10 +56,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <h2>Thêm phòng</h2>
                     <hr>
                     <?php if (isset($success)) { ?>
-                        <div class="alert alert-success"><?= $success ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                     <?php } ?>
                     <?php if (isset($error)) { ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                     <?php } ?>
                     <form method="post" class="form-group">
                         <?php if ($_SESSION['role'] === 'Admin') : ?>
@@ -67,8 +67,8 @@ require_once __DIR__ . '/../partials/header.php';
                                 <label for="name_owner">Tên chủ trọ : </label><br>
                                 <select name="name_owner" class="form-control">
                                     <?php foreach ($owners as $owner) { ?>
-                                        <option value="<?= $owner['name_owner'] ?>">
-                                            <?= $owner['name_owner'] ?>
+                                        <option value="<?= htmlspecialchars($owner['name_owner']) ?>">
+                                            <?= htmlspecialchars($owner['name_owner']) ?>
                                         </option>
                                     <?php } ?>
                                 </select>

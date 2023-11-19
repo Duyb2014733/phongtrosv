@@ -56,12 +56,12 @@ require_once __DIR__ . '/../partials/header.php';
                         <tbody>
                             <?php foreach ($users as $user) : ?>
                                 <tr>
-                                    <td><?= $user['id_name']; ?></td>
-                                    <td><?= $user['username']; ?></td>
-                                    <td><?= $user['role']; ?></td>
+                                    <td><?= htmlspecialchars($user['id_name']); ?></td>
+                                    <td><?= htmlspecialchars($user['username']); ?></td>
+                                    <td><?= htmlspecialchars($user['role']); ?></td>
                                     <td>
-                                        <a href="editUser.php?id=<?= $user['id_name']; ?> " class="btn btn-primary" role="button">Edit</a>
-                                        <a onclick="return confirm('Bạn có muốn xóa bài đăng này không!')" href="deleteUser.php?id=<?= $user['id_name']; ?>" class="btn btn-danger" role="button">Delete</a>
+                                        <a href="editUser.php?id=<?= htmlspecialchars($user['id_name']); ?> " class="btn btn-primary" role="button">Edit</a>
+                                        <a onclick="return confirm('Bạn có muốn xóa bài đăng này không!')" href="deleteUser.php?id=<?= htmlspecialchars($user['id_name']); ?>" class="btn btn-danger" role="button">Delete</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

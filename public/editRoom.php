@@ -55,36 +55,36 @@ require_once __DIR__ . '/../partials/header.php';
                 <div>
                     <h2>Sửa thông tin phòng</h2>
                     <?php if (isset($success)) { ?>
-                        <div class="alert alert-success"><?= $success ?></div>
+                        <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                     <?php } ?>
                     <?php if (isset($error)) { ?>
-                        <div class="alert alert-danger"><?= $error ?></div>
+                        <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                     <?php } ?>
                     <form method="post">
                         <div class="row">
                             <div class="form-group col">
                                 <label for="name">Tên phòng:</label>
-                                <input type="text" name="name" class="form-control" value="<?= $roomData['name_room'] ?>" required>
+                                <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($roomData['name_room']) ?>" required>
                             </div><br>
                             <div class="form-group col">
                                 <label for="price">Giá phòng:</label>
-                                <input type="text" name="price" class="form-control" value="<?= $roomData['price_room'] ?>" required>
+                                <input type="text" name="price" class="form-control" value="<?= htmlspecialchars($roomData['price_room']) ?>" required>
                             </div><br>
                         </div><br>
                         <div class="row">
                             <div class="form-group col">
                                 <label for="elec">Giá điện:</label>
-                                <input type="text" name="elec" class="form-control" value="<?= $roomData['elec_room'] ?>" required>
+                                <input type="text" name="elec" class="form-control" value="<?= htmlspecialchars($roomData['elec_room']) ?>" required>
                             </div><br>
                             <div class="form-group col">
                                 <label for="water">Giá nước:</label>
-                                <input type="text" name="water" class="form-control" value="<?= $roomData['water_room'] ?>" required>
+                                <input type="text" name="water" class="form-control" value="<?= htmlspecialchars($roomData['water_room']) ?>" required>
                             </div><br>
                         </div><br>
                         <div class="row">
                             <div class="form-group col">
                                 <label for="area">Khu vực:</label>
-                                <input type="text" name="area" class="form-control" value="<?= $roomData['area_room'] ?>" required>
+                                <input type="text" name="area" class="form-control" value="<?= htmlspecialchars($roomData['area_room']) ?>" required>
                             </div><br>
                             <div class="form-group col">
                                 <label for="security">Cấp độ an toàn:</label>
@@ -97,7 +97,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </div><br>
                         <div class="form-group">
                             <label for="description">Mô tả phòng:</label>
-                            <textarea name="description" class="form-control" required><?= $roomData['description_room'] ?></textarea>
+                            <textarea name="description" class="form-control" required><?= htmlspecialchars($roomData['description_room']) ?></textarea>
                         </div><br>
                         <div class="form-group">
                             <label for="status">Trạng thái phòng:</label>

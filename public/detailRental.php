@@ -46,18 +46,18 @@ require_once __DIR__ . '/../partials/header.php';
                             <?php if ($rentalDetail) : ?>
                                 <h2>Thông tin chi tiết thuê phòng</h2>
                                 <hr>
-                                <p>ID Rental: <?php echo $rentalDetail['id_rental']; ?></p>
-                                <p>ID Room: <?php echo $rentalDetail['id_room']; ?></p>
-                                <p>Tên Phòng: <?php echo $rooms['name_room']; ?></p>
-                                <p>Tên khách hàng : <?php echo $rentalDetail['name_customer']; ?></p>
-                                <p>Số điện thoại : <?php echo $rentalDetail['phone_customer']; ?></p>
-                                <p>Địa chỉ email : <?php echo $rentalDetail['email_customer']; ?></p>
-                                <p>Địa chỉ : <?php echo $rentalDetail['address_customer']; ?></p>
-                                <p>Giá Phòng : <?php echo $rooms['price_room']; ?>đ</p>
-                                <p>Giá điện : <?php echo $rooms['elec_room']; ?>đ</p>
-                                <p>Giá nước : <?php echo $rooms['water_room']; ?>đ</p>
-                                <p>Ngày bắt đầu : <?php echo $rentalDetail['start_date']; ?></p>
-                                <p>Ngày kết thúc : <?php echo $rentalDetail['end_date']; ?></p>
+                                <p>ID Rental: <?php echo htmlspecialchars($rentalDetail['id_rental']); ?></p>
+                                <p>ID Room: <?php echo htmlspecialchars($rentalDetail['id_room']); ?></p>
+                                <p>Tên Phòng: <?php echo htmlspecialchars($rooms['name_room']); ?></p>
+                                <p>Tên khách hàng : <?php echo htmlspecialchars($rentalDetail['name_customer']); ?></p>
+                                <p>Số điện thoại : <?php echo htmlspecialchars($rentalDetail['phone_customer']); ?></p>
+                                <p>Địa chỉ email : <?php echo htmlspecialchars($rentalDetail['email_customer']); ?></p>
+                                <p>Địa chỉ : <?php echo htmlspecialchars($rentalDetail['address_customer']); ?></p>
+                                <p>Giá Phòng : <?php echo htmlspecialchars($rooms['price_room']); ?>đ</p>
+                                <p>Giá điện : <?php echo htmlspecialchars($rooms['elec_room']); ?>đ</p>
+                                <p>Giá nước : <?php echo htmlspecialchars($rooms['water_room']); ?>đ</p>
+                                <p>Ngày bắt đầu : <?php echo htmlspecialchars($rentalDetail['start_date']); ?></p>
+                                <p>Ngày kết thúc : <?php echo htmlspecialchars($rentalDetail['end_date']); ?></p>
 
                             <?php else : ?>
                                 <div class="alert alert-danger">Không tìm thấy thông tin thuê phòng!</div>

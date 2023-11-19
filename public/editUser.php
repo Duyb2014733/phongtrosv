@@ -50,14 +50,14 @@ require_once __DIR__ . '/../partials/header.php';
                     <form method="post">
                         <h2>Chỉnh sửa thông tin người dùng</h2>
                         <hr>
-                        <input type="hidden" name="id" value="<?= $userData['id']; ?>">
+                        <input type="hidden" name="id" value="<?= htmlspecialchars($userData['id']); ?>">
                         <div class="form-group">
                             <label for="username">Tên người dùng:</label>
-                            <input type="text" name="username" value="<?= $userData['username']; ?>" class="form-control" required>
+                            <input type="text" name="username" value="<?= htmlspecialchars($userData['username']); ?>" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" name="email" value="<?= $userData['email']; ?>" class="form-control" required>
+                            <input type="email" name="email" value="<?= htmlspecialchars($userData['email']); ?>" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Cập nhật</button>

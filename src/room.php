@@ -23,7 +23,7 @@ class Room
             ':name_room' => $name_room,
             ':price_room' => $price_room,
             ':elec_room' => $elec_room,
-            ':water_room'=> $water_room,
+            ':water_room' => $water_room,
             ':area_room' => $area_room,
             ':security_room' => $security_room,
             ':description_room' => $description_room,
@@ -45,7 +45,7 @@ class Room
             ':name_room' => $name_room,
             ':price_room' => $price_room,
             ':elec_room' => $elec_room,
-            ':water_room'=> $water_room,
+            ':water_room' => $water_room,
             ':area_room' => $area_room,
             ':security_room' => $security_room,
             ':description_room' => $description_room,
@@ -78,7 +78,8 @@ class Room
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getImagesByRoomId($id_room) {
+    public function getImagesByRoomId($id_room)
+    {
         $sql = "SELECT image FROM post WHERE id_room = :id_room";
         $statement = $this->db->prepare($sql);
         $statement->execute([':id_room' => $id_room]);
@@ -102,4 +103,15 @@ class Room
 
         return $statement->execute();
     }
+
+    public function getAllAreaRoms()
+    {
+        $sql = "SELECT DISTINCT area_room FROM room";
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    
 }

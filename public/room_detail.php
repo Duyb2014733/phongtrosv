@@ -40,22 +40,22 @@ require_once __DIR__ . '/../partials/header.php';
                             <div class="col-sm-6">
                                 <?php
                                 foreach ($images as $image) {
-                                    echo '<img src="' . $image['image'] . '" alt="Image" style="width: 100%; height: 100%; margin-bottom: 10px;">';
+                                    echo '<img src="' . htmlspecialchars($image['image']) . '" alt="Image" style="width: 100%; height: 100%; margin-bottom: 10px;">';
                                 }
                                 ?>
                             </div>
                             <div class="col-sm-6">
                                 <h1>Chi tiết phòng</h1>
                                 <hr>
-                                <p>Tên phòng: <?php echo $rooms['name_room']; ?></p>
-                                <p>Giá phòng: <?php echo $rooms['price_room']; ?> đ</p>
-                                <p>Khu vực: <?php echo $rooms['area_room']; ?></p>
-                                <p>Cấp độ an toàn: <?php echo $rooms['security_room']; ?></p>
-                                <p>Mô tả: <?php echo $rooms['description_room']; ?></p>
-                                <p>Trạng thái: <?php echo $rooms['status_room']; ?></p>
+                                <p>Tên phòng: <?php echo htmlspecialchars($rooms['name_room']); ?></p>
+                                <p>Giá phòng: <?php echo htmlspecialchars($rooms['price_room']); ?> đ</p>
+                                <p>Khu vực: <?php echo htmlspecialchars($rooms['area_room']); ?></p>
+                                <p>Cấp độ an toàn: <?php echo htmlspecialchars($rooms['security_room']); ?></p>
+                                <p>Mô tả: <?php echo htmlspecialchars($rooms['description_room']); ?></p>
+                                <p>Trạng thái: <?php echo htmlspecialchars($rooms['status_room']); ?></p>
                                 <h3>Thông tin liên lạc chủ trọ :</h3>
-                                <p>Số điện thoại: <?php echo $owners['phone_owner']; ?></p>
-                                <p>Địa chỉ: <?php echo $owners['address_owner']; ?></p>
+                                <p>Số điện thoại: <?php echo htmlspecialchars($owners['phone_owner']); ?></p>
+                                <p>Địa chỉ: <?php echo htmlspecialchars($owners['address_owner']); ?></p>
                             </div>
                             <a class="btn btn-primary" href="index.php">Quay lại</a>
                         </div>

@@ -141,4 +141,31 @@ class Chiso
 
         return $result['total_cost'] ?? null;
     }
+
+    public function getTotalIncomeByMonth($month, $year)
+    {
+        $sql = "SELECT SUM(total_cost) as totalIncome 
+                FROM chiso 
+                WHERE MONTH(date_Chiso) = :month AND YEAR(date_Chiso) = :year";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute([
+            ':month' => $month,
+            ':year' => $year
+        ]);
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['totalIncome'] ?? 0;
+    }
+
+    public function getMonthsHasData()
+    {
+        $sql = "SELECT DISTINCT MONTH(date_Chiso) as month, YEAR(date_Chiso) as year
+            FROM chiso";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

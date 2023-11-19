@@ -49,10 +49,10 @@ require_once __DIR__ . '/../partials/header.php';
                     <form method="post">
                         <h2>Chỉnh sửa thông tin chỉ số</h2>
                         <?php if (isset($success)) : ?>
-                            <div class="alert alert-success"><?= $success ?></div>
+                            <div class="alert alert-success"><?= htmlspecialchars($success) ?></div>
                         <?php endif; ?>
                         <?php if (isset($error)) : ?>
-                            <div class="alert alert-danger"><?= $error ?></div>
+                            <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                         <?php endif; ?>
                         <div class="form-group">
                             <label for="elec_Chiso">Chỉ số điện hiện tại:</label>
@@ -72,7 +72,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </div><br>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary" name="submit">Chỉnh sửa</button>
-                            <a class="btn btn-primary" href="addChiso.php?id_room=<?= $currentChiso['id_room']; ?>">Thoát</a>
+                            <a class="btn btn-primary" href="addChiso.php?id_room=<?= htmlspecialchars($currentChiso['id_room']); ?>">Thoát</a>
                         </div>
                         
                     </form>

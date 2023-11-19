@@ -129,4 +129,46 @@ class Rental
         ]);
         return $statement->fetchAll();
     }
+
+    function calculateRentCost($startDate, $endDate, $roomPrice, $totalcost)
+    {
+        $startTimestamp = strtotime($startDate);
+        $endTimestamp = strtotime($endDate);
+
+        $months = ceil(($endTimestamp - $startTimestamp) / (60 * 60 * 24 * 30));
+
+        $rentCost = ($months * $roomPrice) +  $totalcost;
+
+        return $rentCost;
+    }
+
+    public function getRoomDetailsByRentalId($id_rental)
+    {
+        $sql = "
+        SELECT
+            r.id_rental,
+            r.start_date,
+            r.end_date,
+            r.name_customer,
+            r.phone_customer,
+            r.email_customer,
+            r.address_customer,
+            ro.id_room,
+            ro.name_room,
+            ro.price_room,
+            ro.elec_room,
+            ro.water_room,
+            ro.area_room
+        FROM rental r
+        JOIN room ro ON r.id_room = ro.id_room
+        WHERE r.id_rental = :id_rental
+    ";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute([
+            'id_rental' => $id_rental
+        ]);
+
+        return $statement->fetchAll();
+    }
 }
