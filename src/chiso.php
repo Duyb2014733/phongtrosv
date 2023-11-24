@@ -16,7 +16,7 @@ class Chiso
 
     public function addChiso($id_room, $date_Chiso, $elec_Chiso, $water_Chiso, $total_cost)
     {
-        $sql = "INSERT INTO chiso (id_room, date_Chiso, elec_Chiso, water_Chiso, total_cost) 
+        $sql = "INSERT INTO chiso (id_room, date_Chiso, elec_Chiso, water_Chiso, total_cost)
                     VALUES (:id_room, :date_Chiso, :elec_Chiso, :water_Chiso, :total_cost)";
 
         $statement = $this->db->prepare($sql);
@@ -144,8 +144,8 @@ class Chiso
 
     public function getTotalIncomeByMonth($month, $year)
     {
-        $sql = "SELECT SUM(total_cost) as totalIncome 
-                FROM chiso 
+        $sql = "SELECT SUM(total_cost) as totalIncome
+                FROM chiso
                 WHERE MONTH(date_Chiso) = :month AND YEAR(date_Chiso) = :year";
 
         $statement = $this->db->prepare($sql);

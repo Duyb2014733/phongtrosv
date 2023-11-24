@@ -5,7 +5,6 @@ use phongtrosv\src\User;
 
 ob_start();
 session_start();
-// Xử lý đăng ký tài khoản
 if (isset($_POST['register']) && ($_POST['register'])) {
     $user = new User($PDO);
     $username = $_POST['username'];
@@ -13,16 +12,12 @@ if (isset($_POST['register']) && ($_POST['register'])) {
     $role = $_POST['role'];
     $add = $user->addUser($username, $password, $role);
 
-    // Sau khi INSERT dữ liệu đăng ký thành công
     if (is_string($add)) {
         $error = $add;
         $id_name = $PDO->lastInsertId('id_name');
-        // Nếu là chủ trọ
         if ($role == 'Owner') {
-            // Lưu session
             $_SESSION['id_name'] = $id_name;
             $_SESSION['role'] = 'Owner';
-            // Chuyển hướng
             header('Location: info_owner.php');
             exit();
         }

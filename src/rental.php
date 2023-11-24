@@ -15,7 +15,7 @@ class Rental
 
     public function addRental($name_customer, $phone_customer, $email_customer, $address_customer, $start_date, $end_date, $R_deposit, $id_room, $id_owner)
     {
-        $sql = "INSERT INTO rental (name_customer, phone_customer, email_customer, address_customer, start_date, end_date, R_deposit, id_room, id_owner) 
+        $sql = "INSERT INTO rental (name_customer, phone_customer, email_customer, address_customer, start_date, end_date, R_deposit, id_room, id_owner)
                 VALUES (:name_customer, :phone_customer, :email_customer, :address_customer, :start_date, :end_date, :R_deposit, :id_room, :id_owner)";
 
         $statement = $this->db->prepare($sql);

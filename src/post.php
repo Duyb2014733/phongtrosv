@@ -7,7 +7,7 @@ use PDO;
 class Post
 {
     private ?PDO $db;
-    private $errors = []; // Mảng lưu trữ các thông báo lỗi
+    private $errors = [];
     public function __construct(?PDO $pdo)
     {
         $this->db = $pdo;
@@ -19,18 +19,14 @@ class Post
             return false;
         }
 
-        // Thư mục lưu file ảnh
         $upload_dir = './img';
 
-        // Tạo thư mục nếu nó không tồn tại
         if (!is_dir($upload_dir)) {
             mkdir($upload_dir, 0755, true);
         }
 
-        // Tên file mới
         $imagePath = $upload_dir . '/' . time() . '-' . basename($image['name']);
 
-        // Kiểm tra định dạng và kích thước tệp ảnh
         $allowed_formats = ['jpg', 'jpeg', 'png'];
         $ext = strtolower(pathinfo($imagePath, PATHINFO_EXTENSION));
 
@@ -38,9 +34,8 @@ class Post
             return false;
         }
 
-        // Di chuyển tệp ảnh vào thư mục lưu trữ
         if (move_uploaded_file($image['tmp_name'], $imagePath)) {
-            return $imagePath; // Trả về đường dẫn của tệp ảnh đã tải lên
+            return $imagePath;
         }
 
         return false;
@@ -74,9 +69,8 @@ class Post
     public function addPost($title, $content, $image, $status, $id_owner, $id_room)
     {
 
-        $this->clearErrors(); // Xóa các thông báo lỗi trước đó
+        $this->clearErrors();
 
-        // Kiểm tra và xử lý các trường
         if (empty($title)) {
             $this->addError('title', 'Phải nhập tiêu đề bài viết!');
         }
@@ -85,20 +79,17 @@ class Post
             $this->addError('content', 'Phải nhập nội dung!');
         }
 
-        // Kiểm tra lỗi
         if (!empty($this->errors)) {
-            return false; // Có lỗi, không thực hiện thêm bài đăng
+            return false;
         }
 
-        // Upload tệp ảnh
         $imagePath = $this->uploadImage($image);
 
         if ($imagePath === false) {
             $this->addError('image', 'Lỗi tải lên tệp ảnh!');
-            return false; // Xử lý lỗi khi tải lên tệp ảnh
+            return false;
         }
 
-        // Thêm bài đăng vào cơ sở dữ liệu
         $sql = "INSERT INTO post (title, content, image, status, id_owner, id_room)
                 VALUES (:title, :content, :image, :status, :id_owner, :id_room)";
 
@@ -106,25 +97,23 @@ class Post
         $statement->execute([
             ':title' => $title,
             ':content' => $content,
-            ':image' => $imagePath, // Đường dẫn tới tệp ảnh đã tải lên
+            ':image' => $imagePath,
             ':status' => $status,
             ':id_owner' => $id_owner,
             ':id_room' => $id_room
         ]);
 
-        return true; // Không có lỗi, bài đăng được thêm thành công
+        return true;
     }
 
     public function editPost($id_post, $title, $content, $image, $status)
     {
-        // Upload tệp ảnh nếu có sự thay đổi
         $imagePath = $this->uploadImage($image);
 
         if ($imagePath === false) {
-            return false; // Xử lý lỗi khi tải lên tệp ảnh
+            return false;
         }
 
-        // Cập nhật bài đăng trong cơ sở dữ liệu
         $sql = "UPDATE post
                 SET title = :title, content = :content, image = :image, status = :status
                 WHERE id_post = :id_post";
@@ -134,7 +123,7 @@ class Post
             ':id_post' => $id_post,
             ':title' => $title,
             ':content' => $content,
-            ':image' => $imagePath, // Đường dẫn tới tệp ảnh đã tải lên
+            ':image' => $imagePath,
             ':status' => $status
         ]);
 
@@ -143,18 +132,16 @@ class Post
 
     public function deletePost($id_post)
     {
-        // Lấy đường dẫn tới tệp ảnh để xóa (nếu có)
         $sql = "SELECT image FROM post WHERE id_post = :id_post";
         $statement = $this->db->prepare($sql);
         $statement->execute([':id_post' => $id_post]);
         $imagePath = $statement->fetchColumn();
 
-        // Xóa bài đăng khỏi cơ sở dữ liệu
         $sql = "DELETE FROM post WHERE id_post = :id_post";
         $statement = $this->db->prepare($sql);
         $result = $statement->execute([':id_post' => $id_post]);
 
-        // Xóa tệp ảnh (nếu có)
+
         if ($result && !empty($imagePath) && is_file($imagePath)) {
             unlink($imagePath);
         }

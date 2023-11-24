@@ -54,7 +54,7 @@ require_once __DIR__ . '/../partials/header.php';
                         </thead>
                         <tbody>
                             <?php foreach ($rentalDetails as $rentalDetail) :
-                                $totalcost = $chiso->getLatestTotalCost($rentalDetail['id_room']); 
+                                $totalcost = $chiso->getLatestTotalCost($rentalDetail['id_room']);
                                 $tinhtien = $rental -> calculateRentCost($rentalDetail['start_date'], $rentalDetail['end_date'], $rentalDetail['price_room'], $totalcost);
                                 ?>
                                 <tr>
@@ -77,7 +77,6 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
                 <div>
                     <?php
-                    // Sử dụng lớp Pagination
                     $totalItems = 10;
                     $itemsPerPage = 3;
                     $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;

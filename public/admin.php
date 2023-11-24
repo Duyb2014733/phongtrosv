@@ -20,7 +20,6 @@ $post = new Post($PDO);
 $room = new Room($PDO);
 $rental = new Rental($PDO);
 $users = $user->getAllUsers();
-// Đây là trang quản trị, bạn có thể thêm các chức năng quản trị tại đây.
 
 require_once __DIR__ . '/../partials/header.php';
 ?>
@@ -69,7 +68,6 @@ require_once __DIR__ . '/../partials/header.php';
                     </table>
                     <div class="pagination">
                         <?php
-                        // Sử dụng lớp Pagination
                         $totalItems = 10;
                         $itemsPerPage = 3;
                         $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;

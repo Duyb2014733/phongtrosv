@@ -64,7 +64,6 @@ require_once __DIR__ . '/../partials/header.php';
                     </table><br><hr>
                     <div>
                         <?php
-                        // Sử dụng lớp Pagination
                         $totalItems = 10;
                         $itemsPerPage = 3;
                         $currentPage = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;

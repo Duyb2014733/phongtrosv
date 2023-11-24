@@ -11,7 +11,6 @@ if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'Admin' && $_SESSION['ro
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Lấy dữ liệu bài đăng được chỉnh sửa từ form và thực hiện cập nhật vào cơ sở dữ liệu
     $id_post = $_POST['id_post'];
     $title = $_POST['title'];
     $content = $_POST['content'];
@@ -26,12 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-// Lấy thông tin bài đăng cần chỉnh sửa
 $id_post = $_GET['id_post'];
 $post = new Post($PDO);
 $postData = $post->getPostById($id_post);
 
-// Hiển thị biểu mẫu chỉnh sửa bài đăng
 require_once __DIR__ . '/../partials/header.php';
 ?>
 

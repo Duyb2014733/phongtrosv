@@ -5,7 +5,6 @@ use phongtrosv\src\User;
 
 ob_start();
 session_start();
-// Xử lý đăng ký tài khoản
 if (isset($_POST['register']) && ($_POST['register'])) {
     $user = new User($PDO);
     $username = $_POST['username'];

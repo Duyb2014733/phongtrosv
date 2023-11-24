@@ -28,35 +28,27 @@ class User
     }
     public function checkUser($username, $password)
     {
-        // Lấy thông tin tài khoản dựa vào username
         $user = $this->getUser($username);
-        // Kiểm tra tài khoản có tồn tại không
         if (!$user) {
             return 'User not found';
         }
         if (!password_verify($password, $user['password'])) {
             return 'Invalid password';
         }
-        // Lấy giá trị trường role
         $username = $user['username'];
-        // Kiểm tra và trả về kết quả
         return $username;
     }
 
     function checkUserRole($username, $password)
     {
-        // Lấy thông tin tài khoản dựa vào username
         $user = $this->getuser($username);
-        // Kiểm tra tài khoản có tồn tại không
         if (!$user) {
             return 'User not found';
         }
         if (!password_verify($password, $user['password'])) {
             return 'Invalid password';
         }
-        // Lấy giá trị trường role
         $role = $user['role'];
-        // Kiểm tra và trả về kết quả
         if ($role == 'Admin') {
             return 'Admin';
         } else if ($role == 'Owner') {
