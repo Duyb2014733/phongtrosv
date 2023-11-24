@@ -7,11 +7,13 @@ use phongtrosv\src\Post;
 
 session_start();
 
-$post = new Post($PDO);
 
+$post = new Post($PDO);
 if (isset($_GET['search_area'])) {
     $search_area = $_GET['search_area'];
     $posts = $post->getsearchareaPosts($search_area);
+}else{
+    $allposts = $post->getAllPostRooms();
 }
 
 $room = new Room($PDO);
@@ -40,13 +42,13 @@ require_once __DIR__ . '/../partials/header.php';
                         </div>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="/img/1.jpg" alt="1" class="d-block" style="width:100%">
+                                <img src="/img/1.jpg" alt="1" class="d-block w-100">
                             </div>
                             <div class="carousel-item">
-                                <img src="/img/2.jpg" alt="2" class="d-block" style="width:100%">
+                                <img src="/img/2.jpg" alt="2" class="d-block w-100">
                             </div>
                             <div class="carousel-item">
-                                <img src="/img/3.jpg" alt="3" class="d-block" style="width:100%">
+                                <img src="/img/3.jpg" alt="3" class="d-block w-100">
                             </div>
                         </div>
                         <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
@@ -66,7 +68,7 @@ require_once __DIR__ . '/../partials/header.php';
                                 <select name="search_area" id="search_area">
                                     <option value="">-- Chọn Khu Vực --</option>
                                     <?php foreach ($areas as $area) : ?>
-                                        <option value="<?= htmlspecialchars($area) ?>"><?=  htmlspecialchars($area) ?></option>
+                                        <option value="<?= htmlspecialchars($area) ?>"><?= htmlspecialchars($area) ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <button type="submit">Tìm Kiếm</button>
@@ -76,21 +78,39 @@ require_once __DIR__ . '/../partials/header.php';
                         <hr><br>
                         <div class="container-fluid">
                             <div class="row card_index">
-                                <?php
-                                foreach ($posts as $post) {
-                                    if ($post['status_room'] != 'Đã thuê') {
-                                        echo '<div class="col-sm-4">';
-                                        echo '<div class="card mb-3">';
-                                        echo '<img src="' .  htmlspecialchars($post['image']) . '" class="card-img-top" alt="Image"><hr>';
-                                        echo '<div class="card-body d-flex flex-column">';
-                                        echo '<h2 class="card-title">' .  htmlspecialchars($post['title']) . '</h2><hr>';
-                                        echo '<p class="card-text">Khu vực: ' . htmlspecialchars($post['area_room']) . '</p>';
-                                        echo '<a href="room_detail.php?id_room=' . htmlspecialchars($post['id_room']) . '" class="card-link">Chi tiết</a>';
-                                        echo '</div>';
-                                        echo '</div>';
-                                        echo '</div>';
-                                    }
-                                } ?>
+                                <?php if (!empty($posts)) : ?>
+                                    <?php
+                                    foreach ($posts as $post) {
+                                        if ($post['status_room'] != 'Đã thuê') {
+                                            echo '<div class="col-sm-4">';
+                                            echo '<div class="card mb-3">';
+                                            echo '<img src="' .  htmlspecialchars($post['image']) . '" class="card-img-top" alt="Image"><hr>';
+                                            echo '<div class="card-body d-flex flex-column">';
+                                            echo '<h2 class="card-title">' .  htmlspecialchars($post['title']) . '</h2><hr>';
+                                            echo '<p class="card-text">Khu vực: ' . htmlspecialchars($post['area_room']) . '</p>';
+                                            echo '<a href="room_detail.php?id_room=' . htmlspecialchars($post['id_room']) . '" class="card-link">Chi tiết</a>';
+                                            echo '</div>';
+                                            echo '</div>';
+                                            echo '</div>';
+                                        }
+                                    } ?>
+                                <?php else : ?>
+                                    <?php
+                                    foreach ($allposts as $allpost) {
+                                        if ($allpost['status_room'] != 'Đã thuê') {
+                                            echo '<div class="col-sm-4">';
+                                            echo '<div class="card mb-3">';
+                                            echo '<img src="' .  htmlspecialchars($allpost['image']) . '" class="card-img-top" alt="Image"><hr>';
+                                            echo '<div class="card-body d-flex flex-column">';
+                                            echo '<h2 class="card-title">' .  htmlspecialchars($allpost['title']) . '</h2><hr>';
+                                            echo '<p class="card-text">Khu vực: ' . htmlspecialchars($allpost['area_room']) . '</p>';
+                                            echo '<a href="room_detail.php?id_room=' . htmlspecialchars($allpost['id_room']) . '" class="card-link">Chi tiết</a>';
+                                            echo '</div>';
+                                            echo '</div>';
+                                            echo '</div>';
+                                        }
+                                    } ?>
+                                <?php endif; ?>
                             </div><br>
                             <hr>
                             <div>

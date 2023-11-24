@@ -99,7 +99,7 @@ class Post
         }
 
         // Thêm bài đăng vào cơ sở dữ liệu
-        $sql = "INSERT INTO post (title, content, image, status, id_owner, id_room) 
+        $sql = "INSERT INTO post (title, content, image, status, id_owner, id_room)
                 VALUES (:title, :content, :image, :status, :id_owner, :id_room)";
 
         $statement = $this->db->prepare($sql);
@@ -125,7 +125,7 @@ class Post
         }
 
         // Cập nhật bài đăng trong cơ sở dữ liệu
-        $sql = "UPDATE post 
+        $sql = "UPDATE post
                 SET title = :title, content = :content, image = :image, status = :status
                 WHERE id_post = :id_post";
 
@@ -189,7 +189,21 @@ class Post
         ORDER BY p.created_at DESC";
 
         $statement = $this->db->prepare($sql);
-        $statement->execute(['search_area' => $search_area]);
+        $statement->execute([':search_area' => $search_area]);
+
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllPostRooms()
+    {
+        $sql = "SELECT p.title, p.content, p.image, r.id_room, r.price_room, r.area_room, r.status_room, o.name_owner, o.phone_owner, o.email_owner, o.address_owner
+        FROM post p
+        JOIN room r ON p.id_room = r.id_room
+        JOIN owner o ON r.id_owner = o.id_owner
+        ORDER BY p.created_at DESC";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute();
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
