@@ -3,7 +3,6 @@ require_once __DIR__ . '/../bootstrap.php';
 
 use phongtrosv\src\User;
 
-ob_start();
 session_start();
 if (isset($_POST['register']) && ($_POST['register'])) {
     $user = new User($PDO);
