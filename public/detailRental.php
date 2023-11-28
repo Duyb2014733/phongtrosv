@@ -38,7 +38,7 @@ require_once __DIR__ . '/../partials/header.php';
                         <div class="col">
                             <?php
                             foreach ($images as $image) {
-                                echo '<img src="' . $image['image'] . '" alt="Image" style="max-width: 100%; margin-bottom: 10px;">';
+                                echo '<img src="' . $image['image'] . '" alt="Image" style="width: 100%; height: 100%; margin-bottom: 10px;">';
                             }
                             ?>
                         </div>
@@ -63,6 +63,7 @@ require_once __DIR__ . '/../partials/header.php';
                                 <div class="alert alert-danger">Không tìm thấy thông tin thuê phòng!</div>
                             <?php endif; ?>
                         </div>
+                        <a class="btn btn-primary" href="dsRoom.php">Quay lại</a>
                     </div>
 
 
