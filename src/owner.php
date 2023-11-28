@@ -95,4 +95,33 @@ class Owner
 
         return $statement->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getOwnerById($id_owner)
+    {
+        $sql = "SELECT * FROM owner WHERE id_owner = :id_owner";
+        $statement = $this->db->prepare($sql);
+        $statement->execute(['id_owner' => $id_owner]);
+
+        return $statement->fetch(\PDO::FETCH_ASSOC);
+    }
+
+    public function updateOwner($id_owner, $name_owner, $phone_owner, $email_owner, $address_owner)
+    {
+        $sql = "UPDATE owner
+                SET name_owner = :name_owner,
+                    phone_owner = :phone_owner,
+                    email_owner = :email_owner,
+                    address_owner = :address_owner
+                WHERE id_owner = :id_owner";
+
+        $statement = $this->db->prepare($sql);
+        $statement->execute([
+            'id_owner' => $id_owner,
+            'name_owner' => $name_owner,
+            'phone_owner' => $phone_owner,
+            'email_owner' => $email_owner,
+            'address_owner' => $address_owner
+        ]);
+        return $statement->rowCount();
+    }
 }
