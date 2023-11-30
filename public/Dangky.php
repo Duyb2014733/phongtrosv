@@ -64,7 +64,7 @@ require_once __DIR__ . '/../partials/header.php';
                             <label for="role">Vai trò :</label>
                             <select name="role" id="role">
                                 <option value="Owner">Chủ trọ</option>
-                                <option value="Admin">Admin</option>
+                                <!-- <option value="Admin">Admin</option> -->
                             </select>
                         </div>
                         <input type="submit" class="btn btn-primary" name="register" value="Đăng ký">
